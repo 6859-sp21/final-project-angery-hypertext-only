@@ -33,7 +33,7 @@ namespace QuoteTypes {
         public readonly nuclei: Nucleus[];
         public readonly speaker: Speaker;
         public readonly fullText: string;
-        public readonly audio: Audio;
+        public readonly audio: Audio; // todo this is to encapsulate playing the right audio on click
         public readonly prosody: Prosody;
         // public readonly keywords; // todo need a way to represent what keywords to highlight
 
