@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "mapRoot": "./sketch/",
+    "mapRoot": "./ts/",
     "module": "none",
     "noImplicitAny": true,
     "outFile": "./build/build.js",
     "preserveConstEnums": true,
     "removeComments": true,
-    "rootDir": "./sketch/",
+    "rootDirs": ["./ts/", "./ts/types"],
     "sourceMap": true,
-    "sourceRoot": "./sketch/",
+    "sourceRoot": "./ts/**",
     "target": "es5"
   }
 }

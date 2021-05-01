@@ -79,4 +79,51 @@ function draw() {
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
-//# sourceMappingURL=../sketch/sketch/build.js.map
+var QuoteTypes;
+(function (QuoteTypes) {
+    var Speaker;
+    (function (Speaker) {
+        Speaker["Immigrant"] = "Immigrant";
+        Speaker["FirstGen"] = "FirstGen";
+    })(Speaker || (Speaker = {}));
+    var Nucleus = (function () {
+        function Nucleus(text, theme) {
+            this.fullText = text;
+            this.theme = theme;
+        }
+        return Nucleus;
+    }());
+    QuoteTypes.Nucleus = Nucleus;
+    var Theme = (function () {
+        function Theme(name, nuclei) {
+            this.name = name;
+            this.nuclei = nuclei;
+        }
+        return Theme;
+    }());
+    QuoteTypes.Theme = Theme;
+    var Quote = (function () {
+        function Quote(nuclei, speaker, fullText, audio, prosody) {
+            this.nuclei = nuclei;
+            this.speaker = speaker;
+            this.fullText = fullText;
+            this.audio = audio;
+            this.prosody = prosody;
+        }
+        return Quote;
+    }());
+    QuoteTypes.Quote = Quote;
+    var Audio = (function () {
+        function Audio() {
+        }
+        return Audio;
+    }());
+    QuoteTypes.Audio = Audio;
+    var Prosody = (function () {
+        function Prosody() {
+        }
+        return Prosody;
+    }());
+    QuoteTypes.Prosody = Prosody;
+})(QuoteTypes || (QuoteTypes = {}));
+//# sourceMappingURL=../ts/ts/build.js.map
