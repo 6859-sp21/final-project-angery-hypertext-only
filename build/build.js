@@ -87,28 +87,63 @@ var QuoteTypes;
         Speaker["FirstGen"] = "FirstGen";
     })(Speaker || (Speaker = {}));
     var Nucleus = (function () {
-        function Nucleus(text, theme) {
-            this.fullText = text;
-            this.theme = theme;
+        function Nucleus(text) {
+            this.quotes = [];
+            this.name = text;
         }
+        Nucleus.prototype.addQuote = function (q) {
+            this.quotes.push(q);
+            q.nuclei.push(this);
+        };
+        Nucleus.prototype.addQuotes = function (qs) {
+            var _this = this;
+            this.quotes = this.quotes.concat(qs);
+            qs.forEach(function (q) {
+                q.nuclei.push(_this);
+            });
+        };
+        Nucleus.prototype.getQuotes = function () { return this.quotes; };
         return Nucleus;
     }());
     QuoteTypes.Nucleus = Nucleus;
     var Theme = (function () {
         function Theme(name, nuclei) {
+            var _this = this;
+            this.nuclei = [];
             this.name = name;
-            this.nuclei = nuclei;
+            if (nuclei.length > 0) {
+                this.nuclei = nuclei;
+                nuclei.forEach(function (n) {
+                    n.theme = _this;
+                });
+            }
         }
+        Theme.prototype.addNucleus = function (n) {
+            this.nuclei.push(n);
+            n.theme = this;
+        };
+        Theme.prototype.addNuclei = function (ns) {
+            var _this = this;
+            this.nuclei = this.nuclei.concat(ns);
+            ns.forEach(function (n) {
+                n.theme = _this;
+            });
+        };
+        Theme.prototype.getNuclei = function () { return this.nuclei; };
+        Theme.prototype.getName = function () { return this.name; };
         return Theme;
     }());
     QuoteTypes.Theme = Theme;
     var Quote = (function () {
-        function Quote(nuclei, speaker, fullText, audio, prosody) {
-            this.nuclei = nuclei;
+        function Quote(speaker, fullText, audio, prosody, nuclei) {
+            this.nuclei = [];
             this.speaker = speaker;
             this.fullText = fullText;
             this.audio = audio;
             this.prosody = prosody;
+            if (nuclei.length > 0) {
+                this.nuclei = nuclei;
+            }
         }
         return Quote;
     }());

@@ -8,7 +8,7 @@ var QuoteTypes;
     // nucleus
     var Nucleus = /** @class */ (function () {
         function Nucleus(text, theme) {
-            this.fullText = text;
+            this.name = text;
             this.theme = theme;
         }
         return Nucleus;
@@ -29,7 +29,7 @@ var QuoteTypes;
         function Quote(nuclei, speaker, fullText, audio, prosody) {
             this.nuclei = nuclei;
             this.speaker = speaker;
-            this.fullText = fullText;
+            this.name = fullText;
             this.audio = audio;
             this.prosody = prosody;
         }
