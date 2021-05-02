@@ -1,0 +1,22 @@
+{
+  "name": "hypertext-final",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/6859-sp21/final-project-angery-hypertext-only.git"
+  },
+  "author": "Megan Prakash and Kii Kang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/6859-sp21/final-project-angery-hypertext-only/issues"
+  },
+  "homepage": "https://github.com/6859-sp21/final-project-angery-hypertext-only#readme",
+  "dependencies": {
+    "@types/p5": "^0.9.1"
+  }
+}
