@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "mapRoot": "./ts/",
-    "module": "none",
-    "noImplicitAny": true,
-    "outFile": "./build/build.js",
-    "preserveConstEnums": true,
-    "removeComments": true,
-    "rootDirs": ["./ts/", "./ts/types"],
-    "sourceMap": true,
-    "sourceRoot": "./ts/**",
-    "target": "es5"
+    "rootDir": "ts",
+    "outDir": "build",
+    "target": "es2019",
+    "lib": [
+      "es2019",
+      "dom"
+    ],
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "strict": true,
+    "sourceMap": true
   }
 }
