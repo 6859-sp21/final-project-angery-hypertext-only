@@ -21,7 +21,7 @@
     // Nucleus.theme is assigned when it is added to a Theme object
     export class Nucleus {
         public readonly name: string;
-        public theme: Theme;
+        public theme: Theme | undefined;
         private quotes: Quote[] = [];
         constructor(text: string) {
             this.name = text;
@@ -46,12 +46,12 @@
     //   When a Theme is active in the visualization, its child
     //   nuclei are displayed.
     export class Theme {
-        public readonly name: string;
+        public readonly name: string = "";
         public nuclei: Nucleus[] = [];
 
         constructor(name: string, nuclei?: Nucleus[]) {
             this.name = name;
-            if (nuclei.length > 0) {
+            if (nuclei !== undefined) {
                 this.nuclei = nuclei;
                 nuclei.forEach((n: Nucleus) => {
                     n.theme = this;
@@ -82,7 +82,7 @@
     //  a prosody encoding, used to render variable fonts when the Quote is
     //  displayed in the visualization.
     export class Quote {
-        public nuclei: Nucleus[] = [];
+        public nuclei:Nucleus[] = [];
         public readonly speaker: Speaker;
         public readonly fullText: string;
         public readonly audio: Recording; // todo this is to encapsulate playing the right audio on click
@@ -94,7 +94,7 @@
             this.fullText = fullText;
             this.audio = audio;
             this.prosody = prosody;
-            if (nuclei.length > 0) {
+            if (nuclei !== undefined) {
                 this.nuclei = nuclei;
             }
         }

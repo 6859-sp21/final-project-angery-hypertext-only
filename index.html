@@ -33,21 +33,74 @@
             src="lib/p5.sound.min.js"
     ></script>
 
-    <script type="module" src="build/types/phrase_typedef.js"></script>
-    <script type="module" src="build/build.js"></script>
-    <script type="module" src="build/sketch.js"></script>
+    <script src="build/sketch.js"></script>
 
     <style>
         * {
-            padding: 0px;
-            margin: 0px;
+            padding: 0;
+            margin: 0;
         }
+        #header {
+            margin-left: 50px;
+            margin-top: 50px;
+            width: 100%
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        #grid-container{
+            overflow:hidden
+        }
+        #quotes, #canvas{
+            box-sizing:border-box
+        }
+
+        #quotes {
+            width: 40%;
+            float:left;
+            padding-top: 50px;
+            padding-left: 50px;
+            min-height: 90px;
+        }
+        #canvas {
+            float: right;
+            width: 60%;
+            height:600px;
+            overflow:hidden;
+        }
+
+        .nucleus {
+            padding: 5px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            background-color: blue;
+            color: white;
+            font-weight: bold;
+            display: inline-block;
+            white-space:nowrap;
+
+        }
+
+        .quote {
+            margin-bottom: 5px;
+        }
+
+
+
     </style>
     <script></script>
 </head>
 
 <body>
-<div id="header"></div>
-<div id="canvas"></div>
+    <div id="grid-container">
+        <div id="header">
+            <h1>angery-hypertext-only</h1>
+            This is a quick writeup
+
+        </div>
+        <div id="quotes"></div>
+        <div id="canvas"></div>
+    </div>
 </body>
 </html>

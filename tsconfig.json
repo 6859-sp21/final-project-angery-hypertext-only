@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
-    "module": "es2015",
-    "noImplicitAny": true,
-    "outDir": "./build",
-    "preserveConstEnums": true,
-    "removeComments": true,
-    "rootDirs": ["./ts/", "./ts/types"],
-    "target": "es6"
+    "rootDir": "ts",
+    "outDir": "build",
+    "target": "es2019",
+    "lib": [
+      "es2019",
+      "dom"
+    ],
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "strict": true,
+    "sourceMap": true
   }
 }

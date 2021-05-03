@@ -1,9 +1,26 @@
-export var Speaker;
+"use strict";
+//
+//  Sample usage:
+//  Nucleus n1 = new Nucleus("inclusion")
+//  Nucleus n2 = new Nucleus("exclusion")
+//  Theme t = new Theme("belonging", [n1, n2])
+//  Theme t2 = new Theme("foo"); t2.addNucleus(n1); t2.addNuclei([n1, n2])
+//  Quote q = new Quote([n1], Speaker.Immigrant, $full_text, $audio, $prosody)
+//  Quote q2 = new Quote(...)
+//  n1.addQuote(q)
+//  n1.addQuotes([q, q2])
+//
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Prosody = exports.Recording = exports.Quote = exports.Theme = exports.Nucleus = exports.Speaker = void 0;
+var Speaker;
 (function (Speaker) {
     Speaker["Immigrant"] = "Immigrant";
     Speaker["FirstGen"] = "FirstGen";
-})(Speaker || (Speaker = {}));
-export class Nucleus {
+})(Speaker = exports.Speaker || (exports.Speaker = {}));
+// A Nucleus represents a key topic that speakers mention in their
+//  Quotes. The name could be "my kids," "inclusion," etc.
+// Nucleus.theme is assigned when it is added to a Theme object
+class Nucleus {
     constructor(text) {
         this.quotes = [];
         this.name = text;
@@ -20,11 +37,16 @@ export class Nucleus {
     }
     getQuotes() { return this.quotes; }
 }
-export class Theme {
+exports.Nucleus = Nucleus;
+// A Theme represents a collection of related Nucleus objects.
+//   When a Theme is active in the visualization, its child
+//   nuclei are displayed.
+class Theme {
     constructor(name, nuclei) {
+        this.name = "";
         this.nuclei = [];
         this.name = name;
-        if (nuclei.length > 0) {
+        if (nuclei !== undefined) {
             this.nuclei = nuclei;
             nuclei.forEach((n) => {
                 n.theme = this;
@@ -44,19 +66,30 @@ export class Theme {
     getNuclei() { return this.nuclei; }
     getName() { return this.name; }
 }
-export class Quote {
+exports.Theme = Theme;
+// A Quote is an utterance from the audio source. It can contain multiple
+//  Nucleus topics, and it has its linked source audio clip. It also has
+//  a prosody encoding, used to render variable fonts when the Quote is
+//  displayed in the visualization.
+class Quote {
+    // public readonly keywords; // todo need a way to represent what keywords to highlight
     constructor(speaker, fullText, audio, prosody, nuclei) {
         this.nuclei = [];
         this.speaker = speaker;
         this.fullText = fullText;
         this.audio = audio;
         this.prosody = prosody;
-        if (nuclei.length > 0) {
+        if (nuclei !== undefined) {
             this.nuclei = nuclei;
         }
     }
 }
-export class Recording {
+exports.Quote = Quote;
+class Recording {
 }
-export class Prosody {
+exports.Recording = Recording;
+// prosody
+class Prosody {
 }
+exports.Prosody = Prosody;
+//# sourceMappingURL=phrase_typedef.js.map
