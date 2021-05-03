@@ -100,27 +100,68 @@ const colMargin = 60;
 let allNuclei = [];
 let allThemes = [];
 let allQuotes = [];
-var View;
-(function (View) {
-    View[View["Default"] = 0] = "Default";
-    View[View["Family"] = 1] = "Family";
-})(View || (View = {}));
-let currentView = View.Default;
 let currentTheme;
 let selectedQuote;
-let newQuoteFlag = false;
-let colDiv = document.getElementById("quotes");
+let newQuoteFlag = false; // Are we changing the selected quote on the next frame?
+// @ts-ignore
+let quoteDiv = document.getElementById("quotes");
+// @ts-ignore
+let headerDiv = document.getElementById("header");
+/////////////// building all quote content //////////////////////////////////////
+// ok obviously we will generate this from json eventually
+let n_immigrants = new Nucleus("immigrant parents");
+let n_firstgens = new Nucleus("first-generation American-born");
+let n_myKids = new Nucleus("my kids");
+let n_myParents = new Nucleus("my parents");
+allNuclei = [n_myKids, n_myParents, n_immigrants, n_firstgens];
+let t_family = new Theme("family", [n_myKids, n_myParents]);
+let t_DEFAULT = new Theme("default", [n_immigrants, n_firstgens]);
+allThemes = [t_family, t_DEFAULT];
+let q1 = new Quote(Speaker.FirstGen, "My parents grew up in Cultural Revolution China, so there was telling me that they " +
+    "didn't have the opportunity to go to school, and that's why they came here, so that my brother " +
+    "and I could have the opportunity that they did not have.", new Recording(), new Prosody(), [n_myParents, n_firstgens]);
+let q2 = new Quote(Speaker.Immigrant, "With my kids, it's been so difficult to teach them Spanish, and they went to Dual Immersion school, " +
+    "and, you know, when they were little, I was like, \"you cannot learn Spanish because I want you to be bilingual.\"", new Recording(), new Prosody(), [n_myKids, n_immigrants]);
+allQuotes = [q1, q2];
 const triggerProsody = function (q) {
     selectedQuote = q;
     newQuoteFlag = true;
 };
-function makeToggleButtons(div) {
-    let b1 = document.createElement("p");
+function makeToggleButtons() {
+    let b1 = document.createElement("button");
     b1.className = "toggle";
     b1.innerText = "family";
-    b1.onclick = function () { currentTheme = ; };
+    b1.onclick = function () {
+        currentTheme = t_family;
+        // @ts-ignore
+        let quoteDiv = document.getElementById("quotes");
+        makeQuotesColumn(quoteDiv);
+    };
+    let headerDiv = document.getElementById("header");
+    if (headerDiv) {
+        headerDiv.appendChild(b1);
+    }
+    else {
+        console.log("hey where is the header div");
+    }
+    let b2 = document.createElement("button");
+    b2.className = "toggle";
+    b2.innerText = "default";
+    b2.onclick = function () {
+        currentTheme = t_DEFAULT;
+        // @ts-ignore
+        let quoteDiv = document.getElementById("quotes");
+        makeQuotesColumn(quoteDiv);
+    };
+    headerDiv = document.getElementById("header");
+    if (headerDiv) {
+        headerDiv.appendChild(b2);
+    }
 }
 function makeQuotesColumn(div) {
+    while (div.firstChild) {
+        div.firstChild.remove();
+    }
     for (let n of currentTheme.nuclei) {
         let title = document.createElement("p");
         title.className = "nucleus";
@@ -135,24 +176,10 @@ function makeQuotesColumn(div) {
         }
     }
 }
+//////////// p5.js for drawing the prosody ////////////////
+//////////////////////////////////////////////////////////
 function setup() {
     console.log("🚀 - Setup initialized - P5 is running");
-    // building all quote content
-    // ok obviously we will generate this from json eventually
-    let n_immigrants = new Nucleus("immigrant parents");
-    let n_firstgens = new Nucleus("first-generation American-born");
-    let n_myKids = new Nucleus("my kids");
-    let n_myParents = new Nucleus("my parents");
-    allNuclei = [n_myKids, n_myParents, n_immigrants, n_firstgens];
-    let t_family = new Theme("family", [n_myKids, n_myParents]);
-    let t_DEFAULT = new Theme("default", [n_immigrants, n_firstgens]);
-    allThemes = [t_family, t_DEFAULT];
-    let q1 = new Quote(Speaker.FirstGen, "My parents grew up in Cultural Revolution China, so there was telling me that they " +
-        "didn't have the opportunity to go to school, and that's why they came here, so that my brother " +
-        "and I could have the opportunity that they did not have.", new Recording(), new Prosody(), [n_myParents, n_firstgens]);
-    let q2 = new Quote(Speaker.Immigrant, "With my kids, it's been so difficult to teach them Spanish, and they went to Dual Immersion school, " +
-        "and, you know, when they were little, I was like, \"you cannot learn Spanish because I want you to be bilingual.\"", new Recording(), new Prosody(), [n_myKids, n_immigrants]);
-    allQuotes = [q1, q2];
     currentTheme = t_DEFAULT;
     // FULLSCREEN CANVAS
     let cdiv = document.getElementById("canvas");
@@ -163,6 +190,7 @@ function setup() {
     let quoteDiv = document.getElementById("quotes");
     // @ts-ignore
     makeQuotesColumn(quoteDiv);
+    makeToggleButtons();
 }
 // p5 WILL HANDLE REQUESTING ANIMATION FRAMES FROM THE BROWSER AND WIL RUN DRAW() EACH ANIMATION FRAME
 function draw() {
@@ -187,36 +215,6 @@ function drawProsody() {
         text(selectedQuote.fullText, 0, 0);
     }
 }
-// ///////
-// // I was going to lay out the page using CSS, but it was going to be a pain
-// //  to make different p5 instances per div. I'll revisit this later
-//
-// function drawHeaderInDiv(div:p5.Element) {
-//
-// }
-//
-// function drawTextColInDiv(div:p5.Element, align:string, quotes:Quote[]) {
-//     // this goes in a div, make div the parent of the canvas?
-//     // stack a bunch of divs, onclick sets the animation div to match (sets global selected var to the quote?)
-//
-// }
-//
-// function drawAnimationInDiv(div:p5.Element) {
-//     // this goes in a div
-// }
-//
-//
-// function drawTextInDiv(textDiv:p5.Element, align:string, quote:Quote, w:bigint, h:bigint) {
-//     // assume 0,0 is the top right of the div
-//     push();
-//     // DRAW
-//     beginShape()
-//     ;
-//     endShape(CLOSE);
-//     // END:DRAW
-//     pop();
-//
-// }
 // p5 WILL AUTO RUN THIS FUNCTION IF THE BROWSER WINDOW SIZE CHANGES
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
