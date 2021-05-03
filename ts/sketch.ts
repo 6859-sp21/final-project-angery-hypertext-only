@@ -1,105 +1,153 @@
-let font;
-let audio;
-let startTimeGlobal;
-let textPoints = [];
-let vArray = [];
-let wordWidths = [];
-let fontSize = 80;
-let xNow;
 
-const frRate = 60;
+let font, font_serif, font_sanserif, audio, xNow = 0, startTimeGlobal, slitX, animateToggle = false;
+let prosody = [];
+let textPoints = [], vArray = [], wordWidths = [];
 
-let phrase_001;
+let phrases;
 
 function preload(){
-  font = loadFont('../fonts/DMSerifDisplay-Regular.ttf');
+  font_serif = loadFont('../fonts/DMSerifDisplay-Regular.ttf');
+  font_sanserif = loadFont('../fonts/DMSans-Bold.ttf');
   audio = loadSound('../audio/firstgen/001.mp3');
-  phrase_001 = loadJSON("../audio/firstgen/001.json")
+  phrases = [loadJSON("../audio/firstgen/001.json"), loadJSON("../audio/immigrant/001.json"), loadJSON("../audio/firstgen/002.json"), loadJSON("../audio/immigrant/002.json")];
 }
 
 
-function prepareText(phrase, startX, startY) {
-  let spaceWidth = fontSize/5, textWidth = 0, wordWidth;
-  for (var i = 0; i < Object.keys(phrase).length - 1; i++) {
-    let word = phrase[i]["word"];
+function prepareText(phrase, index, startX, startY) {
+  if (index % 2 === 0){
+    font = font_sanserif;
+  } else {
+    font = font_serif;
+  }
+
+  let fontSize = 100 - 10 * index;
+  let spaceWidth = fontSize/4, textWidth = 0, wordWidth;
+  let textPoints_this = [], vArray_this = [], wordWidths_this = [];
+
+  for (var i = 0; i < Object.keys(phrase["timestamp"]).length; i++) {
+    if (index === 0){
+      prosody.push(randomGaussian(1.1, 0.3));
+    }
+
+    let word = phrase["timestamp"][i]["word"];
     let letters = word.split("");
     wordWidth = 0;
-    letters.forEach(letter => {
-      textPoints.push(font.textToPoints(letter, startX + textWidth, startY, fontSize, {sampleFactor: 0.3}));
-      textWidth += font.textBounds(letter, 0, 0, fontSize).w;
-      wordWidth += font.textBounds(letter, 0, 0, fontSize).w;
-    })
-    textWidth += spaceWidth;
+    let wordPoints = [];
 
-    let endTime = phrase[i]["endTime"], startTime = phrase[i]["startTime"];
+    letters.forEach(letter => {
+      wordPoints.push(font.textToPoints(letter, startX + textWidth, startY, fontSize, {sampleFactor: 0.5}));
+      textWidth += font.textBounds(letter, 0, 0, fontSize).w + 2;
+      wordWidth += font.textBounds(letter, 0, 0, fontSize).w + 2;
+    })
+
+    textWidth += spaceWidth;
+    textPoints_this.push(wordPoints)
+    let endTime = phrase["timestamp"][i]["endTime"], startTime = phrase["timestamp"][i]["startTime"];
     let intervalTime = endTime - startTime;
-    vArray.push( (wordWidth + spaceWidth) / intervalTime );
-    wordWidths.push( wordWidth + spaceWidth );
+    vArray_this.push( (wordWidth + spaceWidth) / intervalTime );
+    wordWidths_this.push( wordWidth + spaceWidth );
   }
+
+  textPoints.push(textPoints_this);
+  vArray.push(vArray_this);
+  wordWidths.push(wordWidths_this);
+
 }
 
 
-function animateText(phrase) {
-  timeElapsed = (millis() - startTimeGlobal)/1000;
-  // if (timeElapsed < startTime) { return; };
-  let indexNow = 0, v = 0;
+function animateText(phrase, index) {
+  if (index === 0){
+    fill("red");
+  } else {
+    fill(0, 180 - index * 40);
+  }
 
-  for (var i = 0; i < Object.keys(phrase).length - 1; i++) {
-    if (timeElapsed < phrase[i]["endTime"] && timeElapsed > phrase[i]["startTime"]) {
-      indexNow = i;
+  timeElapsed = (millis() - startTimeGlobal)/1000;
+  let wordIndexNow = 0, v = 0;
+
+  for (var i = 0; i < Object.keys(phrase["timestamp"]).length; i++) {
+    if (timeElapsed < phrase["timestamp"][i]["endTime"] && timeElapsed > phrase["timestamp"][i]["startTime"]) {
+      wordIndexNow = i;
     }
   }
 
-  v = vArray[indexNow];
+  v = vArray[index][wordIndexNow];
 
   xNow = 0;
-  wordWidths.slice(0, indexNow).forEach(w => { xNow += w; });
-  xNow += v * (timeElapsed - phrase[indexNow]["startTime"]);
-  console.log(indexNow, xNow);
+  wordWidths[index].slice(0, wordIndexNow).forEach(w => { xNow += w; });
+  xNow += v * (timeElapsed - phrase["timestamp"][wordIndexNow]["startTime"]);
+  console.log(wordIndexNow, xNow);
 
-  translate(-xNow, 0);
+  textPoints[index].forEach((wordPoints, i) => {
+    wordPoints.forEach((points, j) => {
+      if (index === 0) {
+        fill(255, 0 , 0, 255 - 100 * prosody[i]);
+      }
+      beginShape();
+      points.forEach(point => {
+        if (index === 0){
+          x = point.x - xNow;
+          y = (point.y - 300) * prosody[i] * (0.8 + sin(PI/2 + (-1)**j * j/10)) + 300;
+        } else {
+          x = point.x;
+          y = point.y;
+        }
+        vertex(x, y);
+      })
+      endShape(CLOSE);
+    });
 
-  textPoints.forEach(points => {
-    beginShape();
-    points.forEach(point => {
-      vertex(point.x, point.y);
-    })
-    endShape(CLOSE);
   })
 }
 
 
 function setup() {
-  audio.play();
-  createCanvas(windowWidth, windowHeight);
-  frameRate(frRate);
 
+  getAudioContext().suspend();
+  audio.play();
+
+  createCanvas(windowWidth, windowHeight);
+
+  slitX = width * 0.5;
 
   noStroke();
-  fill("red");
-  textFont(font);
-  textAlign(LEFT, CENTER);
-  prepareText(phrase_001, width * 3 / 5, 300);
 
-  startTimeGlobal = millis();
+  textAlign(LEFT, CENTER);
+
+  phrases.forEach((phrase, i) => {
+    prepareText(phrase, i, slitX, 300 + i * 110);
+  });
 
 }
 
 
 function draw() {
-  let slitX = width * 3 / 5;
   let backgroundFill = 240;
   background(backgroundFill);
   noStroke();
 
-  animateText(phrase_001);
+  phrases.forEach((phrase, i) => {
+    animateText(phrase, i);
+  });
 
-  if (audio.duration() < timeElapsed){
-    noLoop();
-  }
+
+
+  // if (audio.duration() < timeElapsed){
+  //   noLoop();
+  // }
 
   stroke("grey");
-  strokeWeight(1);
-  line(slitX + xNow, 0, slitX + xNow, height);
+  strokeWeight(.5);
+  line(slitX, 0, slitX, height);
 
+}
+
+function mousePressed() {
+  if (animateToggle === true) {
+    animateToggle = false;
+  } else {
+    animateToggle = true;
+  }
+  userStartAudio();
+  startTimeGlobal = millis();
 }
