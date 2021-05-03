@@ -3,7 +3,7 @@
     "mapRoot": "./ts/",
     "module": "none",
     "noImplicitAny": true,
-    "outFile": "./build/build.js",
+    "outDir": "./build",
     "preserveConstEnums": true,
     "removeComments": true,
     "rootDirs": ["./ts/", "./ts/types"],

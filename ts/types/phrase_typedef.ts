@@ -11,9 +11,7 @@
 //  n1.addQuotes([q, q2])
 //
 
-namespace QuoteTypes {
-
-    enum Speaker {
+    export enum Speaker {
         Immigrant = "Immigrant",
         FirstGen = "FirstGen"
     }
@@ -87,11 +85,11 @@ namespace QuoteTypes {
         public nuclei: Nucleus[] = [];
         public readonly speaker: Speaker;
         public readonly fullText: string;
-        public readonly audio: Audio; // todo this is to encapsulate playing the right audio on click
+        public readonly audio: Recording; // todo this is to encapsulate playing the right audio on click
         public readonly prosody: Prosody;
         // public readonly keywords; // todo need a way to represent what keywords to highlight
 
-        constructor(speaker: Speaker, fullText: string, audio: Audio, prosody: Prosody, nuclei?: Nucleus[]) {
+        constructor(speaker: Speaker, fullText: string, audio: Recording, prosody: Prosody, nuclei?: Nucleus[]) {
             this.speaker = speaker;
             this.fullText = fullText;
             this.audio = audio;
@@ -102,7 +100,7 @@ namespace QuoteTypes {
         }
     }
 
-    export class Audio {
+    export class Recording {
         // todo encapsulate how to play audio
     }
 
@@ -110,5 +108,3 @@ namespace QuoteTypes {
     export class Prosody {
         // encoding goes here
     }
-
-}
