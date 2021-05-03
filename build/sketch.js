@@ -215,7 +215,9 @@ function draw() {
     // draw column 1
     push();
     translate(colMargin, colMargin);
-    drawProsody();
+    if (animateToggle) {
+        drawProsody();
+    }
     pop();
     // have a global var selectedQuote so we know which quote we're drawing
     strokeWeight(3);
@@ -236,9 +238,6 @@ function drawProsody() {
     phrases.forEach((phrase, i) => {
         animateText(phrase, i);
     });
-    // if (audio.duration() < timeElapsed){
-    //   noLoop();
-    // }
     stroke("grey");
     strokeWeight(.5);
     line(slitX, 0, slitX, height);
@@ -295,8 +294,6 @@ function prepareText(phrase, index, startX, startY) {
     wordWidths.push(wordWidths_this);
 }
 function animateText(phrase, index) {
-    console.log("textPoints:");
-    console.log(textPoints);
     if (index === 0) {
         fill("red");
     }
@@ -304,6 +301,10 @@ function animateText(phrase, index) {
         fill(0, 180 - index * 40);
     }
     const timeElapsed = (millis() - startTimeGlobal) / 1000;
+    if (timeElapsed > audio.duration()) {
+        animateToggle = false;
+        return;
+    }
     let wordIndexNow = 0, v = 0;
     for (var i = 0; i < Object.keys(phrase["timestamp"]).length; i++) {
         if (timeElapsed < phrase["timestamp"][i]["endTime"] && timeElapsed > phrase["timestamp"][i]["startTime"]) {
@@ -315,6 +316,11 @@ function animateText(phrase, index) {
     wordWidths[index].slice(0, wordIndexNow).forEach(w => { xNow += w; });
     xNow += v * (timeElapsed - phrase["timestamp"][wordIndexNow]["startTime"]);
     console.log(wordIndexNow, xNow);
+    if (wordIndexNow >= vArray[index][-1]) {
+        console.log("I think this is the last word?");
+        animateToggle = false;
+        return;
+    }
     textPoints[index].forEach((wordPoints, i) => {
         wordPoints.forEach((points, j) => {
             if (index === 0) {
