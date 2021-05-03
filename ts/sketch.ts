@@ -355,8 +355,8 @@ let textPoints = [], vArray = [], wordWidths = [];
 let phrases;
 
 function preload(){
-    font_serif = loadFont('../fonts/DMSerifDisplay-Regular.ttf');
-    font_sanserif = loadFont('../fonts/DMSans-Bold.ttf');
+//     font_serif = loadFont('../fonts/DMSerifDisplay-Regular.ttf');
+//     font_sanserif = loadFont('../fonts/DMSans-Bold.ttf');
     audio = loadSound('../audio/firstgen/001.mp3');
     phrases = [loadJSON("../audio/firstgen/001.json"), loadJSON("../audio/immigrant/001.json"),
         loadJSON("../audio/firstgen/002.json"), loadJSON("../audio/immigrant/002.json")];
@@ -366,9 +366,11 @@ function preload(){
 function prepareText(phrase, index, startX, startY) {
     console.log("prepareText: " + phrase + " " + index + " " + startX + " " + startY)
     if (index % 2 === 0){
-        font = font_sanserif;
+//         font = font_sanserif;
+        font = "sans-serif";
     } else {
-        font = font_serif;
+//         font = font_serif;
+        font = "serif";
     }
 
     let fontSize = 100 - 10 * index;
