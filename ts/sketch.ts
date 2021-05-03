@@ -167,7 +167,21 @@ let q2 = new Quote(
     new Prosody(),
     [n_myKids, n_immigrants]
 )
-allQuotes = [q1, q2]
+let q3 = new Quote(
+    Speaker.Immigrant,
+    "This is another immigrant parent quote.",
+    new Recording(),
+    new Prosody(),
+    [n_myParents, n_immigrants]
+)
+let q4 = new Quote(
+    Speaker.FirstGen,
+    "This is another first-generation American-born quote.",
+    new Recording(),
+    new Prosody(),
+    [n_myKids, n_firstgens]
+)
+allQuotes = [q1, q2, q3, q4]
 
 
 const triggerProsody = function(q:Quote) {
@@ -225,11 +239,11 @@ function makeQuotesColumn(div:HTMLElement) {
         for(let q of n.quotes) {
             let box = document.createElement("p")
             box.innerText = q.fullText;
-            box.className = "quote"
+            box.className = "quote "
             if (q.speaker === Speaker.Immigrant) {
-                box.className = "immigrant"
+                box.className += "immigrant "
             } else {
-                box.className = "firstGen"
+                box.className += "firstGen "
             }
             box.onclick = () => triggerProsody(q)
             div.appendChild(box)
