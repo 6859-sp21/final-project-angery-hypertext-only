@@ -40,36 +40,56 @@
             padding: 0;
             margin: 0;
         }
+
         #header {
             margin-left: 50px;
             margin-top: 50px;
-            width: 100%
+            width: 100%;
+            max-width: 800px;
         }
+
         h1 {
+            margin-bottom: 30px;
+        }
+        h2 {
             margin-bottom: 20px;
         }
 
-        #grid-container{
-            overflow:hidden
+        body {
+            font-family: "Avenir Next",sans-serif;
+            line-height:1.6;
+            margin-bottom: 30px;
         }
-        #quotes, #canvas{
-            box-sizing:border-box
+
+        #header p {
+            font-size: 12px;
+            margin-top: 7px;
+        }
+
+        #grid-container {
+            overflow: hidden
+        }
+
+        #quotes, #canvas {
+            box-sizing: border-box
         }
 
         #quotes {
             width: 40%;
-            float:left;
+            float: left;
             padding-top: 50px;
             padding-left: 50px;
             min-height: 90px;
             cursor: pointer;
 
         }
+
         #canvas {
             float: right;
             width: 60%;
-            height:600px;
-            overflow:hidden;
+            height: 600px;
+            overflow: hidden;
+            padding-left:20px;
         }
 
         .nucleus {
@@ -80,7 +100,7 @@
             color: white;
             font-weight: bold;
             display: inline-block;
-            white-space:nowrap;
+            white-space: nowrap;
 
         }
 
@@ -93,6 +113,13 @@
             margin-top: 10px
         }
 
+        .immigrant {
+            font-family: Serif;
+        }
+
+        .firstgen {
+            font-family: Arial;
+        }
 
 
     </style>
@@ -100,14 +127,42 @@
 </head>
 
 <body>
-    <div id="grid-container">
-        <div id="header">
-            <h1>angery-hypertext-only</h1>
-            <p> This is a quick writeup</p>
+<div id="grid-container">
+    <div id="header">
+        <h1>PARALINGUISTIC
+            HYPERTEXT
+        </h1>
+        <h2>Visualizing conversation through expressive type. <br> Kii Kang and Megan Prakash</h2>
+        <p> Our dataset is speech audio extracted from a conversation between immigrant parents vs
+            1st generation americans that is about 25 minutes long. The conversation is very warm and even-keeled,
+            but there are a lot of complex sentiments expressed on both sides. </p>
+        <p>
+            For our final project, we are exploring an interactive and expressive visualization that encodes more
+            than just the words that the speakers said during their conversation. In reality, a person's speech has
+            higher dimensions, including volume, inflection, and sentiment. We are experimenting with the
+            expressive affordances of text by encoding these higher dimensions to create <i>hypertext.</i>
+        </p>
+        <p>
+            Our goal to create a visualization for the <i>paralanguage</i>
+            of the conversation: what the speakers convey outside
+            of just the words they're saying.
+        </p>
+        <p style="color:blue">
+            Implementation status: <br>
+            The final design will have a full collection of quotes from the conversation, with the font identifying the speaker.
+            The user can click on theme buttons ("family" is below) which will reorganize the quotes by the common themes
+            expressed in the conversation, grouped by nucleus phrases that describe the sentiment in each quote. This grouping
+            is juxtaposed with the identity of who spoke each quote. <br>
+            At any time, the user can click a quote and trigger the animated visualization of the quote's prosody.<br>
+            We plan to have the quotes animated when they move, to make it clear that the same quotes are being
+            rearranged.
+            The text animation and the quotes data  are of course still in progress.
 
-        </div>
-        <div id="quotes"></div>
-        <div id="canvas"></div>
+        </p>
+
     </div>
+    <div id="quotes"></div>
+    <div id="canvas"></div>
+</div>
 </body>
 </html>

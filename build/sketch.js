@@ -163,6 +163,8 @@ function makeToggleButtons() {
     }
 }
 function makeQuotesColumn(div) {
+    // TODO this will instead need to instantiate the quote divs with font
+    //   by speaker, then animate them on a toggle.
     while (div.firstChild) {
         div.firstChild.remove();
     }
@@ -175,6 +177,12 @@ function makeQuotesColumn(div) {
             let box = document.createElement("p");
             box.innerText = q.fullText;
             box.className = "quote";
+            if (q.speaker === Speaker.Immigrant) {
+                box.className = "immigrant";
+            }
+            else {
+                box.className = "firstGen";
+            }
             box.onclick = () => triggerProsody(q);
             div.appendChild(box);
         }
