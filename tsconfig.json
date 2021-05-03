@@ -1,14 +1,11 @@
 {
   "compilerOptions": {
-    "mapRoot": "./ts/",
-    "module": "none",
+    "module": "es2015",
     "noImplicitAny": true,
     "outDir": "./build",
     "preserveConstEnums": true,
     "removeComments": true,
     "rootDirs": ["./ts/", "./ts/types"],
-    "sourceMap": true,
-    "sourceRoot": "./ts/**",
-    "target": "es5"
+    "target": "es6"
   }
 }

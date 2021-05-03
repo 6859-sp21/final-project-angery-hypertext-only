@@ -1,9 +1,7 @@
 // GLOBAL VARS & TYPES
-/// <reference path="./types/phrase_typedef.ts" />
-/// <reference path="./types/visual_typedef.ts" />
 // P5 WILL AUTOMATICALLY USE GLOBAL MODE IF A DRAW() FUNCTION IS DEFINED
 
-import {Nucleus, Prosody, Quote, Recording, Speaker, Theme} from "./types/phrase_typedef";
+import {Nucleus, Prosody, Quote, Recording, Speaker, Theme} from "./types/phrase_typedef.js";
 
 const colMargin = 40;
 
