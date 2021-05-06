@@ -355,11 +355,11 @@ let textPoints = [], vArray = [], wordWidths = [];
 let phrases;
 
 function preload(){
-    font_serif = loadFont('./fonts/DMSerifDisplay-Regular.ttf');
-    font_sanserif = loadFont('./fonts/DMSans-Bold.ttf');
-    audio = loadSound('./audio/firstgen/001.mp3');
-    phrases = [loadJSON("./audio/firstgen/001.json"), loadJSON("./audio/immigrant/001.json"),
-        loadJSON("./audio/firstgen/002.json"), loadJSON("./audio/immigrant/002.json")];
+    font_serif = loadFont('fonts/DMSerifDisplay-Regular.ttf');
+    font_sanserif = loadFont('fonts/DMSans-Bold.ttf');
+    audio = loadSound('audio/firstgen/001.mp3');
+    phrases = [loadJSON("audio/firstgen/001.json"), loadJSON("audio/immigrant/001.json"),
+        loadJSON("audio/firstgen/002.json"), loadJSON("audio/immigrant/002.json")];
 }
 
 
