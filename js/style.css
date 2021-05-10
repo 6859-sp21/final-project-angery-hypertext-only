@@ -1,0 +1,73 @@
+@font-face {
+	src: url('https://res.cloudinary.com/dr6lvwubh/raw/upload/v1529908256/CompressaPRO-GX.woff2');
+	font-family:'Compressa VF';
+	font-style: normal;
+}
+
+/* @font-face {
+ font-family: "Venn VF";
+  src: url("https://redonion.se/codepen/fonts/Venn_VF.woff2") format("woff2-variations"),
+      url("https://redonion.se/codepen/fonts/Venn_VF.woff2")format("woff2");
+  font-display: fallback;
+  font-weight: 300 800;
+  font-stretch: 75% 125%;
+	font-style: normal;
+} */
+
+html {
+	height:100%;
+}
+body {
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	background-color: grey;
+	display: flex;
+	justify-content: center;
+	height: 100%;
+	/* -webkit-font-smoothing: antialiased; */
+	/* align-items: center; */
+}
+
+h1 {
+	font-family:'Compressa VF';
+	/* font-family: "Venn VF"; */
+	text-rendering: optimizeSpeed;
+	font-size: 60px;
+	color: #D11B3D;
+	width: 100%;
+	user-select: none;
+	line-height: 2em;
+	margin: 0 auto;
+	font-weight: 100;
+}
+
+.canvas {
+	display: flex;
+	white-space: nowrap; /* force single line */
+}
+
+.canvas-column {
+	white-space: nowrap; /* force single line */
+	overflow: hidden;
+	text-overflow: clip;
+	float: left;
+	vertical-align: top;
+}
+#canvas-left {
+	width: 50%;
+}
+#canvas-right {
+	width: 50%;
+}
+#canvas-left > h1 {
+	text-align: right;
+}
+#canvas-right > h1 {
+	text-align: left;
+}
+/*
+h1 span {
+	transform: translateY(-10px);
+	user-select: none;
+} */
