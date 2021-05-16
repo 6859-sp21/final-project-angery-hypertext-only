@@ -1,5 +1,24 @@
-# final-project
+# angery-hypertext
 
+## Project setup
+```
+npm install
+```
 
-When you make changes to a .ts file, make sure to compile all typescript. 
-The output .js file lives in ./build
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
