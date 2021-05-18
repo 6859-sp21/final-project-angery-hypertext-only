@@ -73,8 +73,9 @@ exports.Theme = Theme;
 //  displayed in the visualization.
 class Quote {
     // public readonly keywords; // todo need a way to represent what keywords to highlight
-    constructor(speaker, fullText, audio, prosody, nuclei) {
+    constructor(id, speaker, fullText, audio, prosody, nuclei) {
         this.nuclei = [];
+        this.id = id;
         this.speaker = speaker;
         this.fullText = fullText;
         this.audio = audio;

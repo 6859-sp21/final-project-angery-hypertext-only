@@ -83,13 +83,15 @@
     //  displayed in the visualization.
     export class Quote {
         public nuclei:Nucleus[] = [];
+        public readonly id: number = 0;
         public readonly speaker: Speaker;
         public readonly fullText: string;
         public readonly audio: Recording; // todo this is to encapsulate playing the right audio on click
         public readonly prosody: Prosody;
         // public readonly keywords; // todo need a way to represent what keywords to highlight
 
-        constructor(speaker: Speaker, fullText: string, audio: Recording, prosody: Prosody, nuclei?: Nucleus[]) {
+        constructor(id: number, speaker: Speaker, fullText: string, audio: Recording, prosody: Prosody, nuclei?: Nucleus[]) {
+            this.id = id;
             this.speaker = speaker;
             this.fullText = fullText;
             this.audio = audio;
