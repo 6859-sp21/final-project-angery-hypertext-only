@@ -43,6 +43,8 @@ export default {
   background-color: azure; /* just for development */
   padding: 10px;
   margin: 50px;
+  display: inline-block;
+  text-align: center;
 }
 
 h3 {

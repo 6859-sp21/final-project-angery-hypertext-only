@@ -8,7 +8,7 @@ Made by a Triangle
 
 
 <template>
-<div v-for="id in idList">
+<div class="row-container" v-for="id in idList">
   <Quote id="id" v-bind:id="id" v-bind:msg="'hello this is ' + id"> </Quote>
 </div>
 </template>
@@ -28,5 +28,9 @@ export default {
 </script>
 
 <style scoped>
-
+.row-container {
+  display: inline-block;
+  text-align: center;
+  background-color: coral;
+}
 </style>

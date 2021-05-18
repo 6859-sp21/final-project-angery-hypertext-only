@@ -10,7 +10,7 @@ with width 3, then width 4, ...
 
 
 <template>
-<div v-for="content in rowContentArray">
+<div class="triangle-container" v-for="content in rowContentArray">
   <Row v-bind:id-list="content"></Row>
 </div>
 </template>
@@ -18,11 +18,14 @@ with width 3, then width 4, ...
 <script>
 import Row from "./Row.vue"
 
+// Parent layout will filter the ids by nucleus that belong here!
+// I think Vue's reactivity might already make the transition graceful?
+
 export default {
   name: "Triangle",
   props: {
     ids: Array,
-    upsideDown: Boolean
+    upsideDown: Boolean,
   },
   components: {Row},
   computed: {
@@ -31,6 +34,7 @@ export default {
     //    [id1, id2],
     //  [id3, id4, id5]]
     // use v-for to iterate through array and make row components
+
     rowContentArray() {
       let width = 3 // elements in first row
       let rows = []
@@ -56,10 +60,14 @@ export default {
   }
 }
 
-// TODO how to break up the ids and pass those to row?
-
 </script>
 
 <style scoped>
+
+.triangle-container {
+  text-align: center;
+  display:inline-block;
+  background-color: darkgrey;
+}
 
 </style>

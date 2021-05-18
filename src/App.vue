@@ -1,3 +1,15 @@
+<!--
+
+App.vue
+
+Top-level container for page content.
+[static-header]
+{[intro], [TreeDisplay]}
+[static-footer]
+
+-->
+
+
 <template>
   <Quote msg="Welcome to Your Vue.js App"/>
 </template>
