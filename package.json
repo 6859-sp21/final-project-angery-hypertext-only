@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@babel/helper-compilation-targets": "^7.13.16",
+    "@fontsource/roboto": "^4.3.0",
     "@vue/cli": "^4.5.13",
     "@vue/cli-shared-utils": "^4.5.13",
     "babel": "^6.23.0",
@@ -16,7 +17,8 @@
     "core-js": "^3.6.5",
     "panzoom": "^9.4.2",
     "vue": "^3.0.11",
-    "vue-panzoom": "^1.1.6"
+    "vue-panzoom": "^1.1.6",
+    "vue3-material": "^1.0.8"
   },
   "devDependencies": {
     "@vue/babel-preset-app": "^4.5.13",

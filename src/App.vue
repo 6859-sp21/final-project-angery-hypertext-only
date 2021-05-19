@@ -14,14 +14,11 @@ Controls display of the collections based on selected_theme
 
 
 <template>
-  <panzoom>
   <div id="panzoom">
-
-    <triangle v-bind:all-ids="allData.inclusionIds" v-bind:invert="true"></triangle>
-  hello
-<triangle v-bind:all-ids="allData.inclusionIds" v-bind:invert="false"></triangle>
+    <triangle v-bind:all-ids="selectedQuoteIds.top" v-bind:invert="true"></triangle>
+    <theme-toggle></theme-toggle>
+    <triangle v-bind:all-ids="selectedQuoteIds.bottom" v-bind:invert="false"></triangle>
   </div>
-  </panzoom>
 </template>
 
 <script>
@@ -31,62 +28,91 @@ Controls display of the collections based on selected_theme
 
 import {Nucleus, Quote} from "../build/types/phrase_typedef";
 import Triangle from "./components/Triangle";
+import ThemeToggle from "./components/ThemeToggle";
 
 export default {
   name: 'App',
   data() {
-    return {
-    }
+    return {}
   },
   components: {
     triangle: Triangle,
+    themeToggle: ThemeToggle
   },
   provide() {
     return {
-      quotesById: this.allData.quotesById
+      quotesById: this.allData.quotesById,
+      themes: this.allData.themes
     }
   },
-  computed: {
-    allData() {
-      return this.loadAll()
-    },
-  },
-  methods:{
-    loadAll(){
+  inject: ['currentTheme'],
+  computed:
+      {
+        allData() {
+          return this.loadAll()
+        },
+        selectedQuoteIds() {
+          if (this.currentTheme === "speaker") {
+            return {
+              top: this.allData.inclusionIds,
+              bottom: this.allData.exclusionIds
+            }
+          } else {
+            return {
+              top: this.allData.inclusionIds,
+              bottom: this.allData.exclusionIds
+            }
+          }
 
-    // Quote.vue template is responsible for loading content based on the id
-    // define themes and nuclei
-    // put these in an array or dict when loading all the json?
+        }
+      },
+  methods: {
+    loadAll() {
+
+      // Quote.vue template is responsible for loading content based on the id
+      // define themes and nuclei
+      // put these in an array or dict when loading all the json?
       let n_Inclusion = new Nucleus("inclusion")
       let n_Exclusion = new Nucleus("exclusion")
 
-    // themes["belonging].nuclei to see what to display
+      let n_Kids = new Nucleus("kids")
+      let n_Parents = new Nucleus("parents")
+
+      let n_Connected = new Nucleus("connected")
+      let n_Disconnected = new Nucleus("disconnected")
+
+      let n_Immigrants = new Nucleus("immigrants")
+      let n_FirstGens = new Nucleus("firstgen")
+
+      // TODO redo this eventually to use the types
+      // themes["belonging].nuclei to see what to display
       let themes = {
-        "belonging" : [n_Exclusion, n_Inclusion]
+        "belonging": [n_Exclusion, n_Inclusion],
+        "family": [n_Kids, n_Parents],
+        "heritage": [n_Connected, n_Disconnected],
+        "speaker": [n_Immigrants, n_FirstGens]
       }
 
       let quotes = {}
 
-    // load json and generate Quote objects, put them in
-    //  a dictionary keyed by id. Then append ids to the correct
-    //  nuclei lists
+      // load json and generate Quote objects, put them in
+      //  a dictionary keyed by id. Then append ids to the correct
+      //  nuclei lists
 
 
-    // dummy quotes with just speaker, fulltext, id
-      for (let i = 0; i < 10; i++ ) {
-        let speaker = i%2 === 0 ? "immigrant" : "firstgen"
+      // dummy quotes with just speaker, fulltext, id
+      for (let i = 0; i < 10; i++) {
+        let speaker = i % 2 === 0 ? "immigrant" : "firstgen"
         let nuc_names = []
-        if (i%3 === 0) {
+        if (i % 3 === 0) {
           nuc_names.push("inclusion")
           speaker === "immigrant" ?
               n_Inclusion.quoteIds.unshift(i) : n_Inclusion.quoteIds.push(i)
-        }
-        else if (i%3 === 1) {
+        } else if (i % 3 === 1) {
           nuc_names.push("exclusion")
           speaker === "immigrant" ?
               n_Exclusion.quoteIds.unshift(i) : n_Exclusion.quoteIds.push(i)
-        }
-        else if (i%3 ===2) {
+        } else if (i % 3 === 2) {
           nuc_names.push("inclusion")
           nuc_names.push("exclusion")
           speaker === "immigrant" ?
@@ -107,7 +133,8 @@ export default {
       return {
         inclusionIds: n_Inclusion.quoteIds,
         exclusionIds: n_Exclusion.quoteIds,
-        quotesById: quotes
+        quotesById: quotes,
+        themes: themes
       }
     }
   }

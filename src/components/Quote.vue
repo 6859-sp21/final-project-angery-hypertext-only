@@ -19,6 +19,10 @@ TODO: a method for loading the info into the quote.
 TODO: Parent row passes the id of the quote, quote uses id to load
 TODO:   the data?
 */
+
+/*
+TODO div expands on click!
+ */
 export default {
   name: 'Quote',
   props: {
