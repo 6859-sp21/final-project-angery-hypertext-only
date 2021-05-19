@@ -10,8 +10,9 @@ with width 3, then width 4, ...
 
 
 <template>
-<div class="triangle-container" v-for="content in rowContentArray">
-  <Row v-bind:id-list="content"></Row>
+<div class="triangle-container" v-for="content in rowContentArray" v-bind:key="content.length">
+  this is a triangle!
+  <Row v-bind:id-list="content" ></Row>
 </div>
 </template>
 
@@ -24,8 +25,8 @@ import Row from "./Row.vue"
 export default {
   name: "Triangle",
   props: {
-    ids: Array,
-    upsideDown: Boolean,
+    allIds: Array,
+    invert: Boolean
   },
   components: {Row},
   computed: {
@@ -36,14 +37,17 @@ export default {
     // use v-for to iterate through array and make row components
 
     rowContentArray() {
+      console.log("allIds: ", this.allIds)
+      console.log("allIds length ", this.allIds.length)
       let width = 3 // elements in first row
       let rows = []
 
       let idx = 0 // current element in ids
       let currentRow = []
-      while (idx < this.ids.length) {
+      while (idx < this.allIds.length) {
         if (currentRow.length <= width) {
-          currentRow.push(this.ids[idx])
+          console.log("pushed quote: ", this.allIds[idx])
+          currentRow.push(this.allIds[idx])
           idx++
         } else {
           rows.push(currentRow)
@@ -54,7 +58,7 @@ export default {
         }
       }
       console.log("triangle last row has width = " + width)
-      if (this.upsideDown) {rows.reverse()}
+      if (this.invert) {rows.reverse()}
       return rows
     }
   }

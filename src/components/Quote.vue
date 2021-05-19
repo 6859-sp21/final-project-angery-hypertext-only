@@ -10,7 +10,8 @@ For now, use a placeholder with an onClick handler to emit a quote-selected(id) 
 
 <!-- TODO: replace this with Kii's design -->
 <template>
-  <div class="quote-container" @clicked="onClickQuote"> {{ msg }} </div>
+  this is a quote!
+  <div class="quote-container" @clicked="onClickQuote"> {{ quotesById[quoteid].fullText }} </div>
 </template>
 
 <script>
@@ -22,9 +23,9 @@ TODO:   the data?
 export default {
   name: 'Quote',
   props: {
-    id: Number,
-    msg: String
+    quoteid: Number,
   },
+  inject: ['quotesById'],
   methods: {
     onClickQuote () {
       console.log("quote " + this.id + " was clicked")

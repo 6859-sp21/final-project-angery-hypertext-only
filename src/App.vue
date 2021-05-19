@@ -15,12 +15,16 @@ Controls display of the collections based on selected_theme
 
 <template>
   hello
-  {{allData.quotesById}}
+<triangle v-bind:all-ids="allData.inclusionIds" v-bind:invert="false"></triangle>
 </template>
 
 <script>
+// 1. Get the nuclei quote Ids
+// 2. Make triangles by quote Ids and quote objects
 
-import {Nucleus, Quote, Theme} from "../build/types/phrase_typedef";
+
+import {Nucleus, Quote} from "../build/types/phrase_typedef";
+import Triangle from "./components/Triangle";
 
 export default {
   name: 'App',
@@ -28,11 +32,18 @@ export default {
     return {
     }
   },
+  components: {
+    triangle: Triangle
+  },
+  provide() {
+    return {
+      quotesById: this.allData.quotesById
+    }
+  },
   computed: {
     allData() {
       return this.loadAll()
-    }
-
+    },
   },
   methods:{
     loadAll(){
@@ -42,11 +53,10 @@ export default {
     // put these in an array or dict when loading all the json?
       let n_Inclusion = new Nucleus("inclusion")
       let n_Exclusion = new Nucleus("exclusion")
-      let t_Belonging = new Theme("belonging", [n_Exclusion, n_Inclusion])
 
     // themes["belonging].nuclei to see what to display
       let themes = {
-        "belonging" : t_Belonging
+        "belonging" : [n_Exclusion, n_Inclusion]
       }
 
       let quotes = {}
@@ -89,10 +99,9 @@ export default {
       console.log("All themes: ", themes)
 
       return {
-        quotesById: quotes,
-        n_Inclusion: n_Inclusion,
-        n_Exclusion: n_Exclusion,
-        themes: themes
+        inclusionIds: n_Inclusion.quoteIds,
+        exclusionIds: n_Exclusion.quoteIds,
+        quotesById: quotes
       }
     }
   }
