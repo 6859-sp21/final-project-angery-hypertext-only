@@ -7,11 +7,13 @@ Top-level container for page content.
 {[intro], [TreeDisplay]}
 [static-footer]
 
+Receives pre-loaded quote, nucleus, theme collections from main.js
+Controls display of the collections based on selected_theme
+
 -->
 
 
 <template>
-  <Quote msg="Welcome to Your Vue.js App"/>
 </template>
 
 <script>
@@ -19,9 +21,11 @@ import Quote from './components/Quote.vue'
 
 export default {
   name: 'App',
+  data() {
+  },
   components: {
     Quote
-  }
+  },
 }
 </script>
 

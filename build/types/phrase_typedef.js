@@ -5,7 +5,7 @@
 //  Nucleus n2 = new Nucleus("exclusion")
 //  Theme t = new Theme("belonging", [n1, n2])
 //  Theme t2 = new Theme("foo"); t2.addNucleus(n1); t2.addNuclei([n1, n2])
-//  Quote q = new Quote([n1], Speaker.Immigrant, $full_text, $audio, $prosody)
+//  Quote q = new Quote(id, Speaker.Immigrant, $full_text, $audio, $prosody, nuclei[])
 //  Quote q2 = new Quote(...)
 //  n1.addQuote(q)
 //  n1.addQuotes([q, q2])
@@ -22,14 +22,14 @@ var Speaker;
 // Nucleus.theme is assigned when it is added to a Theme object
 class Nucleus {
     constructor(text) {
-        this.quotes = [];
+        this.quoteIds = [];
         this.name = text;
     }
-    addQuote(q) {
+    addQuoteId(q) {
         this.quotes.push(q);
         q.nuclei.push(this);
     }
-    addQuotes(qs) {
+    addQuoteIds(qs) {
         this.quotes = this.quotes.concat(qs);
         qs.forEach((q) => {
             q.nuclei.push(this);
