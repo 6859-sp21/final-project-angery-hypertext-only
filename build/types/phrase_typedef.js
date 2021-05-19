@@ -11,12 +11,8 @@
 //  n1.addQuotes([q, q2])
 //
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Prosody = exports.Recording = exports.Quote = exports.Theme = exports.Nucleus = exports.Speaker = void 0;
-var Speaker;
-(function (Speaker) {
-    Speaker["Immigrant"] = "Immigrant";
-    Speaker["FirstGen"] = "FirstGen";
-})(Speaker = exports.Speaker || (exports.Speaker = {}));
+exports.Prosody = exports.Recording = exports.Quote = exports.Theme = exports.Nucleus = void 0;
+
 // A Nucleus represents a key topic that speakers mention in their
 //  Quotes. The name could be "my kids," "inclusion," etc.
 // Nucleus.theme is assigned when it is added to a Theme object
