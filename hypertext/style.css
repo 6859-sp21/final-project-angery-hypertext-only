@@ -1,0 +1,100 @@
+
+@font-face {
+	src: url('../fonts/CompressaPRO-GX.woff2');
+	font-family:'Compressa VF';
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'FF Meta VF';
+    src: url('https://variablefonts.monotype.com/MetaVariableDemo-Set.woff2') format('woff2');
+    font-display: swap;
+    font-style: normal italic;
+    font-weight: 200 900;
+}
+
+@font-face {
+ font-family: "Venn VF";
+  src: url("../fonts/Venn_VF.woff2") format("woff2-variations"),
+      url("../fonts/Venn_VF.woff2") format("woff2");
+  font-display: fallback;
+  font-weight: 100 800;
+  font-stretch: 75% 125%;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Newsreader";
+	src: url("../fonts/Amstelvar-Roman.ttf");
+}
+
+html {
+	height:100%;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	/* background-color: grey; */
+	display: flex;
+	justify-content: center;
+	height: 100%;
+
+	/* -webkit-font-smoothing: antialiased; */
+	/* align-items: center; */
+}
+
+span {
+	visibility: hidden;
+	alpha: 0;
+	transition: all 1.5s;
+}
+
+/* span:hover {
+	font-weight: 800;
+} */
+
+.quoteContainer {
+	text-rendering: optimizeSpeed;
+	font-size: 50px;
+	color: black;
+	width: auto;
+	display: flex;
+	float: right;
+	line-height: 1.5em;
+	margin: 0 auto;
+}
+
+#container-quote {
+	/* text-align: left; */
+	float: right;
+	width: 75%;
+}
+
+#container-video {
+	float: left;
+	width: 600px;
+	align-content: center;
+	align-items: center;
+}
+
+#container-video video {
+  width: 400px;
+	height: 400px;
+	padding: 100px;
+  border-radius: 400px;
+	object-fit: cover;
+	filter: invert(5%);
+	alpha: 0.5;
+}
+
+video:hover {
+	background: radial-gradient(rgba(255,255,0,0.6), rgba(255,255,0,0) 70%);
+	transition: all 2s;
+}
+/*
+h1 span {
+	transform: translateY(-10px);
+	user-select: none;
+} */
