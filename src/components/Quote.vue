@@ -10,8 +10,7 @@ For now, use a placeholder with an onClick handler to emit a quote-selected(id) 
 
 <!-- TODO: replace this with Kii's design -->
 <template>
-  this is a quote!
-  <div class="quote-container" @clicked="onClickQuote"> {{ quotesById[quoteid].fullText }} </div>
+  <span class="quote-container" @clicked="onClickQuote"> {{ quotesById[quoteid].fullText }} </span>
 </template>
 
 <script>
@@ -40,12 +39,14 @@ export default {
 <style scoped>
 
 .quote-container {
-  width: 200px;
-  background-color: azure; /* just for development */
-  padding: 10px;
-  margin: 50px;
+  width: 120px;
+  padding: 5px;
+  min-height: 60px;
+  margin:20px;
   display: inline-block;
   text-align: center;
+  font-size: 9pt;
+  border: 1px black solid;
 }
 
 h3 {

@@ -11,7 +11,6 @@ with width 3, then width 4, ...
 
 <template>
 <div class="triangle-container" v-for="content in rowContentArray" v-bind:key="content.length">
-  this is a triangle!
   <Row v-bind:id-list="content" ></Row>
 </div>
 </template>
@@ -45,18 +44,22 @@ export default {
       let idx = 0 // current element in ids
       let currentRow = []
       while (idx < this.allIds.length) {
-        if (currentRow.length <= width) {
-          console.log("pushed quote: ", this.allIds[idx])
+        console.log("idx", idx)
+        console.log("rows: ", rows)
+        if (currentRow.length < width) {
           currentRow.push(this.allIds[idx])
+          console.log("currentRow ", currentRow)
           idx++
         } else {
-          rows.push(currentRow)
+          rows.push(JSON.parse(JSON.stringify(currentRow)))
           console.log("pushed row: " + JSON.stringify(currentRow))
           currentRow = []
           width++
-          idx = 0
         }
       }
+
+      rows.push(JSON.parse(JSON.stringify(currentRow)))
+      console.log("pushed row: " + JSON.stringify(currentRow))
       console.log("triangle last row has width = " + width)
       if (this.invert) {rows.reverse()}
       return rows
@@ -70,8 +73,8 @@ export default {
 
 .triangle-container {
   text-align: center;
-  display:inline-block;
   background-color: darkgrey;
+  width: 100%
 }
 
 </style>

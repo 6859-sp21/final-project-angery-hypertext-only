@@ -14,8 +14,14 @@ Controls display of the collections based on selected_theme
 
 
 <template>
+  <panzoom>
+  <div id="panzoom">
+
+    <triangle v-bind:all-ids="allData.inclusionIds" v-bind:invert="true"></triangle>
   hello
 <triangle v-bind:all-ids="allData.inclusionIds" v-bind:invert="false"></triangle>
+  </div>
+  </panzoom>
 </template>
 
 <script>
@@ -33,7 +39,7 @@ export default {
     }
   },
   components: {
-    triangle: Triangle
+    triangle: Triangle,
   },
   provide() {
     return {
@@ -67,7 +73,7 @@ export default {
 
 
     // dummy quotes with just speaker, fulltext, id
-      for (let i = 0; i < 30; i++ ) {
+      for (let i = 0; i < 10; i++ ) {
         let speaker = i%2 === 0 ? "immigrant" : "firstgen"
         let nuc_names = []
         if (i%3 === 0) {
