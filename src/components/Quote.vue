@@ -31,7 +31,7 @@ export default {
   name: 'Quote',
   data() {
     return {
-      active: false,
+      active:false
     }
   },
   props: {
@@ -42,12 +42,12 @@ export default {
   computed: {
     myQuoteObj() {
       return this.quotesById[this.quoteid]
-    }
+    },
   },
   methods: {
 
     onClick() {
-      this.$emit("quoteClicked", this.quoteid)
+      this.activeQuoteId = this.quoteid
       if (!this.active) {
         this.active = true
         this.animateQuote()
@@ -187,14 +187,12 @@ export default {
   display:inline-block;
   vertical-align: middle;
   align-items: center;
-  border: 1px lightgrey solid;
 }
 
 .active {
   width: 100%;
   height: auto;
   font-size: 9pt;
-  border: 1px lightgrey solid;
   display:inline-block;
   vertical-align: middle;
   align-items: center;
@@ -241,6 +239,18 @@ export default {
   justify-content: center;
   transition: all 1s;
 }
+.quote-box {
+  transition: all 1s;
+}
+.inactive.quote-box:hover {
+  padding: 2px;
+  max-width: 500px;
+}
+
+.inactive.quote-box:hover video {
+  width: 85px;
+  height: 85px;
+}
 
 .container-quote {
   /* text-align: left; */
@@ -255,10 +265,10 @@ export default {
 }
 
 .inactive video {
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   padding: 10px;
-  border-radius: 200px;
+  border-radius: 80px;
   object-fit: cover;
   filter: invert(70%);
   opacity: 0.7;
@@ -267,10 +277,10 @@ export default {
   border: none;
 }
 .active video {
-  width: 190px;
-  height: 190px;
+  width: 100px;
+  height: 100px;
   padding: 20px;
-  border-radius: 190px;
+  border-radius: 100px;
   object-fit: cover;
   filter: invert(95%);
   opacity: 0.8;

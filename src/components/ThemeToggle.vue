@@ -13,15 +13,15 @@ The nuclei appear above and below the button row
 
 <template>
   <!-- div for top nucleus name -->
-  <div class="nucleusName">
+  <div class="nucleusName top">
     {{ nucleusText[0] }}
   </div>
   <!-- buttons -->
-  <button class="btn" id="speaker" v-on:click="changeTheme('speaker')">Speaker</button>
+  <button class="btn" id="speaker" v-on:click="changeTheme('speaker')" disabled>Speaker</button>
   <button class="btn" id="family" v-on:click="changeTheme('family')">Family</button>
   <button class="btn" id="belonging" v-on:click="changeTheme('belonging')">Belonging</button>
   <button class="btn" id="heritage" v-on:click="changeTheme('heritage')">Heritage</button>
-  <div class="nucleusName">
+  <div class="nucleusName bottom">
     {{ nucleusText[1] }}
   </div>
   <!-- div for bottom nucleus name -->
@@ -86,10 +86,13 @@ export default {
   border-radius: 2px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
 
-  background-color: #2ecc71;
-  color: #ecf0f1;
+  background-color: darkslateblue;
+  color: white;
 
   transition: background-color .3s;
+
+  font-size: 11pt;
+  font-weight: bold ;
 }
 
 .btn > * {
@@ -101,9 +104,31 @@ export default {
   padding: 12px 24px;
 }
 
+.nucleusName {
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+.top {
+  color: blue;
+}
+
+.bottom {
+  color: blueviolet;
+}
 
 button[disabled] {
   background-color: white;
-  color: black;
+  box-shadow: 0 0px 0px;
+  border: 1px navy solid;
+  color: navy;
+}
+
+.bottom {
+  margin-bottom: 10px;
+}
+
+.top {
+  margin-top: 10px;
 }
 </style>

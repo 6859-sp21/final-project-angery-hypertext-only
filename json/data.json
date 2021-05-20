@@ -2099,7 +2099,7 @@
   },
   {
     "id": 19,
-    "full_text": "my parents are in the States too so they've really you know my dad makes that it buzz you know we have a WhatsApp group with my family and I check it every morning and they keep me updated to what's happening I try hard to instill that in my kids card",
+    "full_text": "my parents are in the States too so they've really you know my dad makes arepas you know we have a WhatsApp group with my family and I check it every morning and they keep me updated to what's happening I try hard to instill that in my kids card",
     "speaker": "immigrant",
     "nuclei": ["parents", "connected"],
     "timestamp": [
@@ -2194,21 +2194,9 @@
         "endTime": 5.2
       },
       {
-        "word": "that",
-        "weight": 1,
-        "startTime": 5.2,
-        "endTime": 5.3
-      },
-      {
-        "word": "it",
-        "weight": 1,
-        "startTime": 5.3,
-        "endTime": 5.5
-      },
-      {
         "word": "buzz",
         "weight": 1,
-        "startTime": 5.5,
+        "startTime": 5.3,
         "endTime": 5.8
       },
       {
