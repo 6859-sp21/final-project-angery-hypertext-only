@@ -5,7 +5,7 @@ by<br><br>
 <b>Kii Kang</b><br>  Hypertext interaction design and development, raw data processing<br>
 <b>Megan Prakash</b> <br>Webpage backend development, layout design and development
 
-![summary image]("media/preview.png")
+![summary image](media/preview.png)
 
 #### Abstract
 
@@ -15,4 +15,4 @@ The project is twofold. First, we unpack the contents of the conversation and la
 Find the full paper [here](final/paper.pdf).
 
 
-![video preview]("media/preview.mp4")
+![video preview](media/preview.mp4)
