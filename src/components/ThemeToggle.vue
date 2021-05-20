@@ -41,7 +41,7 @@ export default {
   },
   provide() {
     return {
-      currentTheme: this.currentTheme
+      currentTheme: this.getTheme
     }
   },
   inject: ['themes'],
@@ -49,6 +49,10 @@ export default {
     nucleusText() {
       let nuclei = this.themes[this.currentTheme]
       return [nuclei[0].name, nuclei[1].name]
+    },
+
+    getTheme() {
+      return this.currentTheme
     }
   },
   methods: {

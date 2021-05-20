@@ -14,11 +14,9 @@ Controls display of the collections based on selected_theme
 
 
 <template>
-  <div id="panzoom">
     <triangle v-bind:all-ids="selectedQuoteIds.top" v-bind:invert="true"></triangle>
     <theme-toggle></theme-toggle>
     <triangle v-bind:all-ids="selectedQuoteIds.bottom" v-bind:invert="false"></triangle>
-  </div>
 </template>
 
 <script>
@@ -29,11 +27,12 @@ Controls display of the collections based on selected_theme
 import {Nucleus, Quote} from "../build/types/phrase_typedef";
 import Triangle from "./components/Triangle";
 import ThemeToggle from "./components/ThemeToggle";
+import dataJSON from './../json/data.json'
 
 export default {
   name: 'App',
   setup() {
-      const nucleiList = ["family", "parents", "mom", "mother", "father", "kids", "States", "America", "China", "Spanish", "Venezuelan", "Venezuela", "connection", ""]
+    const nucleiList = ["inclusion", "exclusion", "kids", "parents", "connected", "disconnected"]
       return {
         nucleiList
       }
@@ -49,112 +48,110 @@ export default {
     return {
       quotesById: this.allData.quotesById,
       themes: this.allData.themes,
-      quotesFromJSON: {}
     }
   },
   inject: ['currentTheme'],
   computed:
       {
-        allData() {
-          return this.loadAll()
-        },
         selectedQuoteIds() {
           if (this.currentTheme === "speaker") {
             return {
               top: this.allData.inclusionIds,
               bottom: this.allData.exclusionIds
             }
-          } else {
+          } else if (this.currentTheme === "belonging") {
             return {
-              top: this.allData.inclusionIds,
-              bottom: this.allData.exclusionIds
+              top: this.allData.themes.belonging[0].quoteIds,
+              bottom: this.allData.themes.belonging[1].quoteIds
+            }
+          } else if (this.currentTheme === "heritage") {
+            return {
+              top: this.allData.themes.heritage[0].quoteIds,
+              bottom: this.allData.themes.heritage[1].quoteIds
+            }
+          } else { // "family"
+            return {
+              top: this.allData.themes.family[0].quoteIds,
+              bottom: this.allData.themes.family[1].quoteIds
             }
           }
 
-        }
+        },
+
+        allData() {
+          // quotesFromJSON = {"id": Quote()}
+          dataJSON.forEach(x => { console.log(x["id"], x["full_text"]); });
+
+          // Quote.vue template is responsible for loading content based on the id
+          let n_Inclusion = new Nucleus("inclusion")
+          let n_Exclusion = new Nucleus("exclusion")
+
+          let n_Kids = new Nucleus("kids")
+          let n_Parents = new Nucleus("parents")
+
+          let n_Connected = new Nucleus("connected")
+          let n_Disconnected = new Nucleus("disconnected")
+
+          let n_Immigrants = new Nucleus("immigrants")
+          let n_FirstGens = new Nucleus("firstgen")
+
+          let nuclei = {
+            "inclusion": n_Inclusion,
+            "exclusion": n_Exclusion,
+            "kids": n_Kids,
+            "parents": n_Parents,
+            "connected": n_Connected,
+            "disconnected": n_Disconnected,
+            "immigrant": n_Immigrants,
+            "firstgen": n_FirstGens
+          }
+
+          // themes["belonging].nuclei to see what to display
+          let themes = {
+            "belonging": [n_Exclusion, n_Inclusion],
+            "family": [n_Kids, n_Parents],
+            "heritage": [n_Connected, n_Disconnected],
+            "speaker": [n_Immigrants, n_FirstGens]
+          }
+
+          //  a dictionary keyed by id. Then append ids to the correct
+          //  nuclei lists
+          // {id: Quote()}
+          let quotesById = {}
+
+          dataJSON.forEach(phrase => {
+            if ("nuclei" in phrase) {
+              console.log("phrase: ", phrase.nuclei)
+              phrase["nuclei"].forEach(word => {
+                    nuclei[word].quoteIds.push(phrase["id"])
+                  }
+              );
+            }
+            quotesById[phrase["id"]] =
+                new Quote(phrase["id"],
+                    phrase["speaker"],
+                    phrase["full_text"],
+                    phrase["timestamp"],
+                    phrase["nuclei"]);
+          });
+
+
+          console.log("----- main.js: LOADED QUOTE DATA -----")
+          console.log("n_Inclusion: ", n_Inclusion)
+          console.log("n_Exclusion: ", n_Exclusion)
+          console.log("All themes: ", themes)
+
+          return {
+            inclusionIds: n_Inclusion.quoteIds,
+            exclusionIds: n_Exclusion.quoteIds,
+            quotesById: quotesById,
+            themes: themes
+          }
+        },
+
       },
   methods: {
-    loadAll() {
 
-      // Quote.vue template is responsible for loading content based on the id
-      // define themes and nuclei
-      // put these in an array or dict when loading all the json?
-      let n_Inclusion = new Nucleus("inclusion")
-      let n_Exclusion = new Nucleus("exclusion")
-
-      let n_Kids = new Nucleus("kids")
-      let n_Parents = new Nucleus("parents")
-
-      let n_Connected = new Nucleus("connected")
-      let n_Disconnected = new Nucleus("disconnected")
-
-      let n_Immigrants = new Nucleus("immigrants")
-      let n_FirstGens = new Nucleus("firstgen")
-
-      // TODO redo this eventually to use the types
-      // themes["belonging].nuclei to see what to display
-      let themes = {
-        "belonging": [n_Exclusion, n_Inclusion],
-        "family": [n_Kids, n_Parents],
-        "heritage": [n_Connected, n_Disconnected],
-        "speaker": [n_Immigrants, n_FirstGens]
-      }
-
-      let quotes = this.makeAllQuotes()
-      console.log("App.vue: makeAllQuotes(): \n", quotes)
-
-      // load json and generate Quote objects, put them in
-      //  a dictionary keyed by id. Then append ids to the correct
-      //  nuclei lists
-
-
-      console.log("----- main.js: LOADED QUOTE DATA -----")
-      console.log("All quotes: ", quotes)
-      console.log("n_Inclusion: ", n_Inclusion)
-      console.log("n_Exclusion: ", n_Exclusion)
-      console.log("All themes: ", themes)
-
-      return {
-        inclusionIds: n_Inclusion.quoteIds,
-        exclusionIds: n_Exclusion.quoteIds,
-        quotesById: quotes,
-        themes: themes
-      }
-    },
-
-    startTimer() {
-      return new Date();
-    },
-
-    loadJSON(callback) {
-      //https://www.geekstrick.com/load-json-file-locally-using-pure-javascript/
-      var xobj = new XMLHttpRequest();
-      xobj.overrideMimeType("application/json");
-      xobj.open('GET', '../json/data.json', true);
-      xobj.onreadystatechange = function () {
-        if (xobj.readyState === 4 && xobj.status === "200") {
-          // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-          callback(xobj.responseText);
-        }
-      };
-      xobj.send(null);
-    },
-
-    makeAllQuotes() {
-      this.loadJSON(function(response) {
-        let phrases = JSON.parse(response);
-        console.log("App.vue:makeAllQuotes() phrases = ", phrases)
-        phrases.forEach(phrase => {
-          let nucleusWords = [];
-          phrase["timestamp"].forEach(item => {
-            if (this.nucleiList.includes(item["word"])) {
-              nucleusWords.push(item["word"]);
-            }
-          });
-          this.quotesFromJSON[phrase["id"]] = new Quote(phrase["id"], phrase["speaker"], phrase["full_text"], phrase["timestamp"], nucleusWords);
-        });
-      });
-    }
   },
 }
 

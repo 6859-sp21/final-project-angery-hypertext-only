@@ -95,7 +95,6 @@ function animateQuote(quote) {
   let videoFrame = document.getElementsByTagName("video")[0];
 
   videoFrame.onclick = function() {
-    startTimer();
     videoFrame.play();
     let wordIndexNow, wordIndexPrev;
 
