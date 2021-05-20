@@ -1,8 +1,11 @@
 # PARALINGUISTIC HYPERTEXT
 ### Visualizing Conversation Through Expressive Digital Text
+<br>
+by<br><br>
+<b>Kii Kang</b><br>  Hypertext interaction design and development, raw data processing<br>
+<b>Megan Prakash</b> <br>Webpage backend development, layout design and development
 
-by Kii Kang, Megan Prakash
-
+![summary image]("media/preview.png")
 
 #### Abstract
 
@@ -10,3 +13,6 @@ Text medium is seemingly flat and linear, but this was not the case before the t
 The project is twofold. First, we unpack the contents of the conversation and lay out our findings in a web environment based on their themes. These include family, belonging, cultural heritage, as well as the speakers, whether they are immigrants or first-generation Americans. Second, we present “hypertext,” an augmented form of digital text, using variable fonts that allow continuous interpolation of font styles — thickness, obliqueness, width, size, or even the design of the embellishments. The text is presented in real time, in sync with the audio that is being played alongside.
 
 Find the full paper [here](final/paper.pdf).
+
+
+![video preview]("media/preview.mp4")
