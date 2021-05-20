@@ -69,24 +69,17 @@ exports.Theme = Theme;
 //  displayed in the visualization.
 class Quote {
     // public readonly keywords; // todo need a way to represent what keywords to highlight
-    constructor(id, speaker, fullText, audio, prosody, nuclei) {
-        this.nuclei = [];
+    constructor(id, speaker, fullText, timestamp, nucleusWords) {
+        this.nucleusWords = [];
         this.id = id;
         this.speaker = speaker;
         this.fullText = fullText;
-        this.audio = audio;
-        this.prosody = prosody;
-        if (nuclei !== undefined) {
-            this.nuclei = nuclei;
+        this.timestamp = timestamp;
+        if (nucleusWords !== undefined) {
+            this.nucleusWords = nucleusWords;
         }
     }
 }
 exports.Quote = Quote;
-class Recording {
-}
-exports.Recording = Recording;
-// prosody
-class Prosody {
-}
-exports.Prosody = Prosody;
+
 //# sourceMappingURL=phrase_typedef.js.map

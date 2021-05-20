@@ -10,14 +10,12 @@ For now, use a placeholder with an onClick handler to emit a quote-selected(id) 
 
 <!-- TODO: replace this with Kii's design -->
 <template>
-  <span class="quote-container" @clicked="onClickQuote"> {{ quotesById[quoteid].fullText }} </span>
+  <span class="quote-container" v-on:click="onClickQuote"> {{ quotesById[quoteid].fullText }} </span>
 </template>
 
 <script>
 /*
 TODO: a method for loading the info into the quote.
-TODO: Parent row passes the id of the quote, quote uses id to load
-TODO:   the data?
 */
 
 /*
@@ -25,14 +23,24 @@ TODO div expands on click!
  */
 export default {
   name: 'Quote',
+  data() {
+    return {
+    }
+  },
   props: {
     quoteid: Number,
   },
   inject: ['quotesById'],
+  computed: {
+    myQuoteJSON() {
+      // go get my data
+
+    }
+  },
   methods: {
     onClickQuote () {
-      console.log("quote " + this.id + " was clicked")
-      this.$emit('focus', this.id)
+      console.log("quote " + this.quoteid + " was clicked")
+      this.$emit('focus', this.quoteid)
     }
   }
   // TODO computed properties given the id prop

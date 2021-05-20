@@ -1,6 +1,5 @@
 import {createApp, h} from 'vue'
 import App from './App.vue'
-import plugin from "./plugin.js.old";
 
 /************
  *
@@ -17,7 +16,6 @@ import panZoom from 'vue-panzoom'
 // This is a global mixin, it is applied to every vue instance.
 // Mixins must be instantiated *before* your call to new Vue(...)
 const app = createApp(App)
-app.use(plugin, {option: "option"})
 
 app.use(panZoom)
 app.mount('#app')

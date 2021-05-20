@@ -1,12 +1,10 @@
 const frameRate = 60;
 let phrases;
-let startTime;
+
+import Quote from './../build/types/phrase_typedef'
 
 let quotes = [];
 
-function startTimer(delay) {
-  startTime = new Date();
-};
 
 function loadJSON(callback) {
     //https://www.geekstrick.com/load-json-file-locally-using-pure-javascript/
@@ -22,26 +20,24 @@ function loadJSON(callback) {
     xobj.send(null);
 }
 
-let quotes = [];
+quotes = [];
 let nucleiList = ["family", "parents", "mom", "mother", "father", "kids", "States", "America", "China", "Spanish", "Venezuelan", "Venezuela", "connection", ""]
 
 function main() {
  loadJSON(function(response) {
     let phrases = JSON.parse(response);
-    let quote;
     phrases.forEach(phrase => {
-      let nuclei = [];
-      phrases[i]["timestamp"].forEach(item => {
+      let nucleusWords = [];
+      phrase["timestamp"].forEach(item => {
         if (nucleiList.includes(item["word"])) {
-          nuclei.push(item["word"]);
+          nucleusWords.push(item["word"]);
         }
       });
-      //Quote(id, nuclei, speaker, fullText, timestamps)
-      quote = new Quote(phrase["id"], nuclei, speaker, phrase["full_text"], timestamp)
+      let quote = new Quote(phrase["id"], phrase["speaker"], phrase["full_text"], phrase["timestamp"], nucleusWords)
       quotes.push(quote);
     });
  });
- animateMedia(27);
+ animateQuote(27);
 }
 
 
@@ -89,14 +85,14 @@ function animateQuote(quote) {
   }
 
   for (let i = 0; i < timestamp.length; i++){
-    _char = new Char(quoteContainer, timestamp[i]["word"] + " ");
+    let _char = new Char(quoteContainer, timestamp[i]["word"] + " ");
     chars.push(_char);
   }
 
   //play video
-  videoContainer = document.getElementById("container-video")
+  let videoContainer = document.getElementById("container-video")
   videoContainer.innerHTML = "<video width = '250' height='500'><source src = '../media/video/" + String(id) + ".mp4#t=0' type='video/mp4'></video>"
-  videoFrame = document.getElementsByTagName("video")[0];
+  let videoFrame = document.getElementsByTagName("video")[0];
 
   videoFrame.onclick = function() {
     startTimer();
@@ -122,10 +118,10 @@ function animateQuote(quote) {
         let ital = (wordIndexNow !== 0)?
                     Math.round(10 * (timestamp[wordIndexNow]["startTime"] - timestamp[wordIndexNow - 1]["startTime"]) / timestamp[wordIndexNow]["word"].length) : width;
         let weight = timestamp[wordIndexNow]["weight"] * 200 + 150;
-        let cap = (timestamp[wordIndexNow]["weight"] > 3)? true : false;
+        let cap = (timestamp[wordIndexNow]["weight"] > 3);
         chars[wordIndexNow].update({"wdth": width, "wght": weight, "alpha": 1, "ital": ital, "cap": cap, "size": weight/2});
 
-        resetIndex = (wordIndexNow < timestamp.length - 2)? ((wordIndexNow > 2)? wordIndexNow - 2: 0): wordIndexNow + 1;
+        let resetIndex = (wordIndexNow < timestamp.length - 2)? ((wordIndexNow > 2)? wordIndexNow - 2: 0): wordIndexNow + 1;
 
         for (let j = 0; j < resetIndex; j++){
           if (speaker === "immigrant"){

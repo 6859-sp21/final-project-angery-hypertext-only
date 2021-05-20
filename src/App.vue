@@ -32,6 +32,12 @@ import ThemeToggle from "./components/ThemeToggle";
 
 export default {
   name: 'App',
+  setup() {
+      const nucleiList = ["family", "parents", "mom", "mother", "father", "kids", "States", "America", "China", "Spanish", "Venezuelan", "Venezuela", "connection", ""]
+      return {
+        nucleiList
+      }
+  },
   data() {
     return {}
   },
@@ -42,7 +48,8 @@ export default {
   provide() {
     return {
       quotesById: this.allData.quotesById,
-      themes: this.allData.themes
+      themes: this.allData.themes,
+      quotesFromJSON: {}
     }
   },
   inject: ['currentTheme'],
@@ -93,37 +100,14 @@ export default {
         "speaker": [n_Immigrants, n_FirstGens]
       }
 
-      let quotes = {}
+      let quotes = this.makeAllQuotes()
+      console.log("App.vue: makeAllQuotes(): \n", quotes)
 
       // load json and generate Quote objects, put them in
       //  a dictionary keyed by id. Then append ids to the correct
       //  nuclei lists
 
 
-      // dummy quotes with just speaker, fulltext, id
-      for (let i = 0; i < 10; i++) {
-        let speaker = i % 2 === 0 ? "immigrant" : "firstgen"
-        let nuc_names = []
-        if (i % 3 === 0) {
-          nuc_names.push("inclusion")
-          speaker === "immigrant" ?
-              n_Inclusion.quoteIds.unshift(i) : n_Inclusion.quoteIds.push(i)
-        } else if (i % 3 === 1) {
-          nuc_names.push("exclusion")
-          speaker === "immigrant" ?
-              n_Exclusion.quoteIds.unshift(i) : n_Exclusion.quoteIds.push(i)
-        } else if (i % 3 === 2) {
-          nuc_names.push("inclusion")
-          nuc_names.push("exclusion")
-          speaker === "immigrant" ?
-              n_Inclusion.quoteIds.unshift(i) : n_Inclusion.quoteIds.push(i)
-
-          speaker === "immigrant" ?
-              n_Exclusion.quoteIds.unshift(i) : n_Exclusion.quoteIds.push(i)
-        }
-        let fullText = "This is quote with id = " + i + " speaker = " + speaker + " nuclei = " + JSON.stringify(nuc_names)
-        quotes[i] = new Quote(i, speaker, fullText)
-      }
       console.log("----- main.js: LOADED QUOTE DATA -----")
       console.log("All quotes: ", quotes)
       console.log("n_Inclusion: ", n_Inclusion)
@@ -136,9 +120,42 @@ export default {
         quotesById: quotes,
         themes: themes
       }
-    }
-  }
+    },
 
+    startTimer() {
+      return new Date();
+    },
+
+    loadJSON(callback) {
+      //https://www.geekstrick.com/load-json-file-locally-using-pure-javascript/
+      var xobj = new XMLHttpRequest();
+      xobj.overrideMimeType("application/json");
+      xobj.open('GET', '../json/data.json', true);
+      xobj.onreadystatechange = function () {
+        if (xobj.readyState === 4 && xobj.status === "200") {
+          // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+          callback(xobj.responseText);
+        }
+      };
+      xobj.send(null);
+    },
+
+    makeAllQuotes() {
+      this.loadJSON(function(response) {
+        let phrases = JSON.parse(response);
+        console.log("App.vue:makeAllQuotes() phrases = ", phrases)
+        phrases.forEach(phrase => {
+          let nucleusWords = [];
+          phrase["timestamp"].forEach(item => {
+            if (this.nucleiList.includes(item["word"])) {
+              nucleusWords.push(item["word"]);
+            }
+          });
+          this.quotesFromJSON[phrase["id"]] = new Quote(phrase["id"], phrase["speaker"], phrase["full_text"], phrase["timestamp"], nucleusWords);
+        });
+      });
+    }
+  },
 }
 
 </script>
