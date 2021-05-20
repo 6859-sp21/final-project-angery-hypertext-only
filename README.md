@@ -14,6 +14,4 @@ The project is twofold. First, we unpack the contents of the conversation and la
 
 Find the full paper [here](final/paper.pdf).
 
-<video width=100% controls>
-  <source src="media/preview.mp4" type="video/mp4">
-</video>
+![preview video](https://youtu.be/5BERzNIFVRc?t=6)
