@@ -19,6 +19,7 @@ For now, use a placeholder with an onClick handler to emit a quote-selected(id) 
     </div>
     <div class="container-quote" :id="'container-quote-'+quoteid">
       <div v-if="!active" :class="'static-quote-'+myQuoteObj.speaker">{{myQuoteObj.fullText}}</div>
+      <div class="quote-animation" :id="'quote-animation-'+quoteid"></div>
     </div>
   </div>
   </div>
@@ -36,7 +37,8 @@ export default {
   props: {
     quoteid: Number,
   },
-  inject: ['quotesById'],
+  emits: ["quoteClicked"],
+  inject: ['quotesById', 'activeQuoteId'],
   computed: {
     myQuoteObj() {
       return this.quotesById[this.quoteid]
@@ -45,7 +47,9 @@ export default {
   methods: {
 
     onClick() {
+      this.$emit("quoteClicked", this.quoteid)
       if (!this.active) {
+        this.active = true
         this.animateQuote()
         // emit a clicked so others know to close
       } else {
@@ -54,8 +58,12 @@ export default {
     },
 
     collapseQuote() {
+      this.active = false
 
-
+      let videoFrame = document.getElementById("video-" + this.quoteid);
+      videoFrame.pause();
+      videoFrame.currentTime = 0;
+      document.getElementById("quote-animation-" + this.quoteid).innerHTML = ''
     },
 
     animateQuote() {
@@ -96,7 +104,7 @@ export default {
       timestamp = quote.timestamp;
 
       // let count = 0, text = "", wordIndex = [], wordLetterCount = 0;
-      let quoteContainer = document.getElementById("container-quote-" + this.quoteid);
+      let quoteContainer = document.getElementById("quote-animation-" + this.quoteid);
 
       if (speaker === "immigrant"){
         quoteContainer.style.fontFamily = "Newsreader";

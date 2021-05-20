@@ -50,6 +50,7 @@ export default {
     return {
       quotesById: this.allData.quotesById,
       themes: this.allData.themes,
+      activeQuoteId: undefined
     }
   },
   computed:
