@@ -10,8 +10,8 @@ with width 3, then width 4, ...
 
 
 <template>
-<div class="triangle-container" v-for="content in rowContentArray" v-bind:key="content.length">
-  <Row v-bind:id-list="content" ></Row>
+<div class="row-container" v-for="content in rowContentArray" v-bind:key="content.length">
+  <Row v-bind:id-list="content"></Row>
 </div>
 </template>
 
@@ -36,31 +36,24 @@ export default {
     // use v-for to iterate through array and make row components
 
     rowContentArray() {
-      console.log("allIds: ", this.allIds)
-      console.log("allIds length ", this.allIds.length)
+      console.log("triangle allIds: ", this.allIds)
       let width = 3 // elements in first row
       let rows = []
 
       let idx = 0 // current element in ids
       let currentRow = []
       while (idx < this.allIds.length) {
-        console.log("idx", idx)
-        console.log("rows: ", rows)
         if (currentRow.length < width) {
           currentRow.push(this.allIds[idx])
-          console.log("currentRow ", currentRow)
           idx++
         } else {
           rows.push(JSON.parse(JSON.stringify(currentRow)))
-          console.log("pushed row: " + JSON.stringify(currentRow))
           currentRow = []
           width++
         }
       }
 
       rows.push(JSON.parse(JSON.stringify(currentRow)))
-      console.log("pushed row: " + JSON.stringify(currentRow))
-      console.log("triangle last row has width = " + width)
       if (this.invert) {rows.reverse()}
       return rows
     }

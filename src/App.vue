@@ -14,9 +14,9 @@ Controls display of the collections based on selected_theme
 
 
 <template>
-    <triangle v-bind:all-ids="selectedQuoteIds.top" v-bind:invert="true"></triangle>
-    <theme-toggle></theme-toggle>
-    <triangle v-bind:all-ids="selectedQuoteIds.bottom" v-bind:invert="false"></triangle>
+  <triangle v-bind:all-ids="selectedQuoteIds.top" v-bind:invert="true"></triangle>
+  <theme-toggle></theme-toggle>
+  <triangle v-bind:all-ids="selectedQuoteIds.bottom" v-bind:invert="false"></triangle>
 </template>
 
 <script>
@@ -33,12 +33,14 @@ export default {
   name: 'App',
   setup() {
     const nucleiList = ["inclusion", "exclusion", "kids", "parents", "connected", "disconnected"]
-      return {
-        nucleiList
-      }
+    return {
+      nucleiList
+    }
   },
   data() {
-    return {}
+    return {
+      currentTheme: "speaker"
+    }
   },
   components: {
     triangle: Triangle,
@@ -50,14 +52,14 @@ export default {
       themes: this.allData.themes,
     }
   },
-  inject: ['currentTheme'],
   computed:
       {
         selectedQuoteIds() {
+          console.log("current theme: ", this.currentTheme)
           if (this.currentTheme === "speaker") {
             return {
-              top: this.allData.inclusionIds,
-              bottom: this.allData.exclusionIds
+              top: this.allData.themes.speaker[0].quoteIds,
+              bottom: this.allData.themes.speaker[1].quoteIds
             }
           } else if (this.currentTheme === "belonging") {
             return {
@@ -80,20 +82,20 @@ export default {
 
         allData() {
           // quotesFromJSON = {"id": Quote()}
-          dataJSON.forEach(x => { console.log(x["id"], x["full_text"]); });
+          // dataJSON.forEach(x => { console.log(x["id"], x["full_text"]); });
 
           // Quote.vue template is responsible for loading content based on the id
           let n_Inclusion = new Nucleus("inclusion")
           let n_Exclusion = new Nucleus("exclusion")
 
-          let n_Kids = new Nucleus("kids")
-          let n_Parents = new Nucleus("parents")
+          let n_Kids = new Nucleus("my kids")
+          let n_Parents = new Nucleus("my parents")
 
           let n_Connected = new Nucleus("connected")
           let n_Disconnected = new Nucleus("disconnected")
 
-          let n_Immigrants = new Nucleus("immigrants")
-          let n_FirstGens = new Nucleus("firstgen")
+          let n_Immigrants = new Nucleus("immigrant parents")
+          let n_FirstGens = new Nucleus("first-generation Americans")
 
           let nuclei = {
             "inclusion": n_Inclusion,
@@ -121,11 +123,17 @@ export default {
 
           dataJSON.forEach(phrase => {
             if ("nuclei" in phrase) {
-              console.log("phrase: ", phrase.nuclei)
               phrase["nuclei"].forEach(word => {
-                    nuclei[word].quoteIds.push(phrase["id"])
+                    if (phrase["speaker"] === "immigrant") {
+                      nuclei[word].quoteIds.unshift(phrase["id"])
+                    } else if (phrase["speaker"] === "firstgen") {
+                      nuclei[word].quoteIds.push(phrase["id"])
+                    }
                   }
               );
+            }
+            if (phrase["speaker"] === "immigrant" || phrase["speaker"] === "firstgen") {
+              nuclei[phrase["speaker"]].quoteIds.push(phrase["id"])
             }
             quotesById[phrase["id"]] =
                 new Quote(phrase["id"],
@@ -150,9 +158,7 @@ export default {
         },
 
       },
-  methods: {
-
-  },
+  methods: {},
 }
 
 </script>

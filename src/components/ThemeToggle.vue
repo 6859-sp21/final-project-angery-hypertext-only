@@ -58,6 +58,7 @@ export default {
   methods: {
     changeTheme(newTheme) {
       this.currentTheme = newTheme
+      this.$parent.currentTheme = newTheme
 
       let els = document.getElementsByTagName("button")
       els.forEach(function(el) {

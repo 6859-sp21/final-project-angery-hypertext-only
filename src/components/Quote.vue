@@ -9,27 +9,28 @@ For now, use a placeholder with an onClick handler to emit a quote-selected(id) 
 -->
 
 <template>
-  <span class="quote-box">
-    {{myQuoteObj}}
-  <span class="quote-container">
-    <div class="container-column" id="container-video"></div>
-    <div class="container-column" id="container-quote">
-      <h1 id="quote"> </h1>
-      <h1 id="quote2"></h1>
+  <div class="quote-box"  v-on:click="onClick"
+       :class="active ? 'active' : 'inactive'">
+  <div class="quote-container">
+    <div class="container-video">
+      <video :class="active ? 'active' : 'inactive'" :id="'video-'+quoteid">
+        <source :src="'static/'+ quoteid + '.mp4#t=0'" type='video/mp4'>
+      </video>
     </div>
-  </span>
-  </span>
+    <div class="container-quote" :id="'container-quote-'+quoteid">
+      <div v-if="!active" :class="'static-quote-'+myQuoteObj.speaker">{{myQuoteObj.fullText}}</div>
+    </div>
+  </div>
+  </div>
 
 </template>
 
 <script>
-/*
-TODO div expands on click!
- */
 export default {
   name: 'Quote',
   data() {
     return {
+      active: false,
     }
   },
   props: {
@@ -38,42 +39,129 @@ export default {
   inject: ['quotesById'],
   computed: {
     myQuoteObj() {
-      console.log("my quoteObj: ", this.quotesById[this.quoteid])
       return this.quotesById[this.quoteid]
     }
   },
   methods: {
-    onClickQuote() {
-      console.log("quote " + this.quoteid + " was clicked")
-      this.$emit('focus', this.quoteid)
-    },
 
-    char(container, char) {
-      // TODO need this to be dynamic
-      let span = document.createElement("span");
-      span.setAttribute('data-word', char);
-      span.innerText = char;
-      container.appendChild(span);
-
-      this.update = function(args) {
-        this.wdth = args.wdth;
-        this.wght = args.wght;
-        this.alpha = args.alpha;
-        this.ital = args.ital;
-        this.cap = args.cap;
-        this.size = args.size;
-        this.draw();
-      }
-
-      this.draw = function() {
-        var style = "visibility: visible;";
-        style += "opacity: " + this.alpha + ";";
-        style += "font-size: " + this.size + ";";
-        style += "font-variation-settings: 'wght' " + this.wght + ", 'wdth' " + this.wdth + ", 'ital' " + this.ital + ";";
-        if (this.cap === true) {style += "text-transform: uppercase;"}
-        span.style = style;
+    onClick() {
+      if (!this.active) {
+        this.animateQuote()
+        // emit a clicked so others know to close
+      } else {
+        this.collapseQuote()
       }
     },
+
+    collapseQuote() {
+
+
+    },
+
+    animateQuote() {
+      this.active = true
+      let quote = this.myQuoteObj
+      console.log("hello from", quote.id)
+      const frameRate = 60;
+      let Char = function(container, char) {
+        let span = document.createElement("span");
+        span.setAttribute('data-word', char);
+        span.innerText = char;
+        container.appendChild(span);
+
+        this.update = function(args) {
+          this.wdth = args.wdth;
+          this.wght = args.wght;
+          this.alpha = args.alpha;
+          this.ital = args.ital;
+          this.cap = args.cap;
+          this.size = args.size;
+          this.draw();
+        }
+
+        this.draw = function() {
+          var style = "visibility: visible;";
+          style += "opacity: " + this.alpha + ";";
+          style += "font-size: " + this.size + ";";
+          style += "font-variation-settings: 'wght' " + this.wght + ", 'wdth' " + this.wdth + ", 'ital' " + this.ital + ";";
+          if (this.cap === true) {style += "text-transform: uppercase;"}
+          span.style = style;
+        }
+      }
+
+
+      let chars = []
+      let speaker, timestamp;
+      speaker = quote.speaker;
+      timestamp = quote.timestamp;
+
+      // let count = 0, text = "", wordIndex = [], wordLetterCount = 0;
+      let quoteContainer = document.getElementById("container-quote-" + this.quoteid);
+
+      if (speaker === "immigrant"){
+        quoteContainer.style.fontFamily = "Newsreader";
+      } else {
+        quoteContainer.style.fontFamily = "Compressa VF";
+      }
+
+      for (let i = 0; i < timestamp.length; i++){
+        let _char = new Char(quoteContainer, timestamp[i]["word"] + " ");
+        chars.push(_char);
+      }
+
+      //play video
+      let videoFrame = document.getElementById("video-" + this.quoteid);
+
+      // videoFrame.onclick = function() {
+        let startTime = new Date()
+        videoFrame.play();
+        let wordIndexNow, wordIndexPrev;
+
+        let timer = setInterval(function(){
+          wordIndexPrev = wordIndexNow;
+          let timeNow = new Date();
+          let timeElapsed = (timeNow - startTime)/1000;
+
+          //video blinking anim when playing
+          videoFrame.style = "background: radial-gradient(rgba(255,255,0,"
+              + String(0.5 + Math.sin(timeElapsed*10)/5) + "), rgba(255,255,0,0) 80%);"
+
+          for (let i = 0; i < timestamp.length; i++){
+            if (timeElapsed > timestamp[i]["startTime"]){ wordIndexNow = i; }
+          }
+
+          if (wordIndexPrev !== wordIndexNow) {
+            console.log(String(wordIndexNow) + "th word:" + timestamp[wordIndexNow]["word"]);
+            let width = Math.round(10 * (timestamp[wordIndexNow]["endTime"] - timestamp[wordIndexNow]["startTime"]) / timestamp[wordIndexNow]["word"].length) * 100 + 100;
+            let ital = (wordIndexNow !== 0)?
+                Math.round(10 * (timestamp[wordIndexNow]["startTime"] - timestamp[wordIndexNow - 1]["startTime"]) / timestamp[wordIndexNow]["word"].length) : width;
+            let weight = timestamp[wordIndexNow]["weight"] * 200 + 150;
+            let cap = (timestamp[wordIndexNow]["weight"] > 3);
+            chars[wordIndexNow].update({"wdth": width, "wght": weight, "alpha": 1, "ital": ital, "cap": cap, "size": weight/2});
+
+            let resetIndex = (wordIndexNow < timestamp.length - 2)? ((wordIndexNow > 2)? wordIndexNow - 2: 0): wordIndexNow + 1;
+
+            for (let j = 0; j < resetIndex; j++){
+              if (speaker === "immigrant"){
+                chars[j].update({"wdth": 100, "wght": 250, "alpha": .5, "ital": 1, "cap": false, "size": 50});
+              } else {
+                chars[j].update({"wdth": 150, "wght": 250, "alpha": .5, "ital": 0, "cap": false, "size": 50});
+              }
+            }
+          }
+
+          if (timeElapsed > timestamp[timestamp.length - 1]["endTime"] + 0.2 ){
+            clearInterval(timer);
+            this.active = false
+            videoFrame.style = "radial-gradient(rgba(255,255,0,0.6), rgba(255,255,0,0) 70%);"
+            videoFrame.pause();
+          }
+
+        }, 1/frameRate*1000);
+
+      // }
+    }
+
 
 
 
@@ -85,8 +173,23 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-Quote {
-  background-color: darkgrey;
+.inactive {
+  width: 300px;
+  font-size: 9pt;
+  display:inline-block;
+  vertical-align: middle;
+  align-items: center;
+  border: 1px lightgrey solid;
+}
+
+.active {
+  width: 100%;
+  height: auto;
+  font-size: 9pt;
+  border: 1px lightgrey solid;
+  display:inline-block;
+  vertical-align: middle;
+  align-items: center;
 }
 
 @font-face {
@@ -118,52 +221,74 @@ Quote {
   src: url("../../fonts/Amstelvar-Roman.ttf");
 }
 
-span {
-  visibility: hidden;
-  opacity: 0;
-  transition: all 1.5s;
-}
-
-/* span:hover {
-	font-weight: 800;
-} */
-
 .quote-container {
   text-rendering: optimizeSpeed;
-  font-size: 50px;
+  font-size: 35px;
   color: black;
-  width: auto;
-  display: flex;
-  float: right;
+  width: 100%;
+  display: inline-flex;
   line-height: 1.5em;
   margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  transition: all 1s;
 }
 
-#container-quote {
+.container-quote {
   /* text-align: left; */
   float: right;
-  width: 75%;
+  width: 55%;
 }
 
-#container-video {
+.container-video {
   float: left;
-  width: 600px;
-  align-content: center;
+  display: inline-flex;
   align-items: center;
 }
 
-#container-video video {
-  width: 400px;
-  height: 400px;
-  padding: 100px;
-  border-radius: 400px;
+.inactive video {
+  width: 70px;
+  height: 70px;
+  padding: 10px;
+  border-radius: 200px;
   object-fit: cover;
-  filter: invert(5%);
-  opacity: 0.5;
+  filter: invert(70%);
+  opacity: 0.7;
+  display: flex;
+  transition: all 1s;
+  border: none;
+}
+.active video {
+  width: 190px;
+  height: 190px;
+  padding: 20px;
+  border-radius: 190px;
+  object-fit: cover;
+  filter: invert(95%);
+  opacity: 0.8;
+  display: flex;
+  transition: all 1s;
+  border: none;
 }
 
+.static-quote-immigrant {
+  font-family: "Newsreader", serif;
+  font-size: 6pt;
+  line-height: normal;
+  cursor: pointer;
+  transition: all 1s;
+}
+
+.static-quote-firstgen {
+  font-family: "Compressa VF", serif;
+  font-size: 7pt;
+  line-height: normal;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: all 1s;
+}
 video:hover {
-  background: radial-gradient(rgba(255,255,0,0.6), rgba(255,255,0,0) 70%);
-  transition: all 2s;
+  background: radial-gradient(rgba(255,255,0,0.6), rgba(255,255,0,0) 90%);
+  cursor: pointer;
 }
 </style>

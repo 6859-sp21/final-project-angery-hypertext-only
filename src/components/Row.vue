@@ -30,6 +30,7 @@ export default {
 <style scoped>
 .row-container {
   text-align: center;
+  vertical-align: middle;
   width:100%
 }
 </style>
