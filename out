@@ -1,0 +1,103 @@
+
+> final-project-angery-hypertext-only@0.1.0 build
+> vue-cli-service build
+
+
+ WARNING  Compiled with 2 warnings2:21:52 AM
+
+ warning  
+
+asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  fonts/Amstelvar-Roman.7bc426b4.ttf (1.28 MiB)
+  static/5.mp4 (1.24 MiB)
+  static/16.mp4 (1.81 MiB)
+  static/23.mp4 (1.75 MiB)
+  static/3.mp4 (1.58 MiB)
+  static/48.mp4 (1.6 MiB)
+  static/21.mp4 (2.06 MiB)
+  static/9.mp4 (1.94 MiB)
+  static/36.mp4 (2.32 MiB)
+  static/40.mp4 (2.13 MiB)
+  static/19.mp4 (2.69 MiB)
+  static/28.mp4 (2.88 MiB)
+  static/4.mp4 (2.66 MiB)
+  static/54.mp4 (2.69 MiB)
+  static/50.mp4 (2.89 MiB)
+  static/12.mp4 (3.18 MiB)
+  static/17.mp4 (3.48 MiB)
+  static/25.mp4 (3.44 MiB)
+  static/46.mp4 (3.2 MiB)
+  static/1.mp4 (3.79 MiB)
+  static/32.mp4 (3.86 MiB)
+  static/27.mp4 (3.95 MiB)
+  static/7.mp4 (3.53 MiB)
+  static/59.mp4 (4.05 MiB)
+  static/30.mp4 (4.83 MiB)
+  static/14.mp4 (5.49 MiB)
+
+ warning  
+
+webpack performance recommendations: 
+You can limit the size of your bundles by using import() or require.ensure to lazy load some parts of your application.
+For more info visit https://webpack.js.org/guides/code-splitting/
+
+  File                                   Size              Gzipped
+
+  dist/js/chunk-vendors.4afebb72.js      105.54 KiB        39.56 KiB
+  dist/js/app.3704febb.js                101.01 KiB        18.26 KiB
+  dist/css/chunk-vendors.245ebdc1.css    4.00 KiB          2.04 KiB
+  dist/css/app.3b91185e.css              2.70 KiB          1.04 KiB
+
+  Images and other types of assets omitted.
+
+ DONE  Build complete. The dist directory is ready to be deployed.
+ INFO  Check out deployment instructions at https://cli.vuejs.org/guide/deployment.html
+      
+Initialized empty Git repository in /Users/meganprakash/Desktop/Spring 2020/6.859 Datavis/final/src/final-project-angery-hypertext-only/dist/.git/
+[master (root-commit) f4351b0] deploy
+ 43 files changed, 9 insertions(+)
+ create mode 100644 css/app.3b91185e.css
+ create mode 100644 css/chunk-vendors.245ebdc1.css
+ create mode 100644 favicon.ico
+ create mode 100644 fonts/Amstelvar-Roman.7bc426b4.ttf
+ create mode 100644 fonts/CompressaPRO-GX.27e89285.woff2
+ create mode 100644 fonts/Venn_VF.2af49da2.woff2
+ create mode 100644 fonts/roboto-all-400-normal.73f26bf9.woff
+ create mode 100644 fonts/roboto-cyrillic-400-normal.ba2c6cb0.woff2
+ create mode 100644 fonts/roboto-cyrillic-ext-400-normal.2e0b8660.woff2
+ create mode 100644 fonts/roboto-greek-400-normal.22786f24.woff2
+ create mode 100644 fonts/roboto-latin-400-normal.aa23b7b4.woff2
+ create mode 100644 fonts/roboto-latin-ext-400-normal.718dded3.woff2
+ create mode 100644 fonts/roboto-vietnamese-400-normal.756af8e5.woff2
+ create mode 100644 index.html
+ create mode 100644 js/app.3704febb.js
+ create mode 100644 js/app.3704febb.js.map
+ create mode 100644 js/chunk-vendors.4afebb72.js
+ create mode 100644 js/chunk-vendors.4afebb72.js.map
+ create mode 100644 static/1.mp4
+ create mode 100644 static/12.mp4
+ create mode 100644 static/14.mp4
+ create mode 100644 static/16.mp4
+ create mode 100644 static/17.mp4
+ create mode 100644 static/19.mp4
+ create mode 100644 static/21.mp4
+ create mode 100644 static/23.mp4
+ create mode 100644 static/25.mp4
+ create mode 100644 static/27.mp4
+ create mode 100644 static/28.mp4
+ create mode 100644 static/3.mp4
+ create mode 100644 static/30.mp4
+ create mode 100644 static/32.mp4
+ create mode 100644 static/36.mp4
+ create mode 100644 static/4.mp4
+ create mode 100644 static/40.mp4
+ create mode 100644 static/46.mp4
+ create mode 100644 static/48.mp4
+ create mode 100644 static/5.mp4
+ create mode 100644 static/50.mp4
+ create mode 100644 static/54.mp4
+ create mode 100644 static/59.mp4
+ create mode 100644 static/7.mp4
+ create mode 100644 static/9.mp4
