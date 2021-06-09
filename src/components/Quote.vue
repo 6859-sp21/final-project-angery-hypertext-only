@@ -277,10 +277,10 @@ export default {
   border: none;
 }
 .active video {
-  width: 100px;
-  height: 100px;
+  width: 250px;
+  height: 250px;
   padding: 20px;
-  border-radius: 100px;
+  border-radius: 250px;
   object-fit: cover;
   filter: invert(95%);
   opacity: 0.8;
